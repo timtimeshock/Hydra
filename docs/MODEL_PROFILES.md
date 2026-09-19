@@ -583,29 +583,29 @@
 
 | Position | Current Default | Key Requirements | Primary Capability |
 |---|---|---|---|
-| **Architect** | Claude Opus 4.6 | Planning, decomposition, system design | Abstract reasoning, code quality |
-| **Analyst** | Gemini 3 Pro | Review, critique, risk identification | Analytical depth, long context |
-| **Implementer** | GPT-5.4 | Code generation, refactoring, execution | Long context, reasoning, code generation |
-| **Concierge** | GPT-5 | Fast streaming chat, broad knowledge | Low latency, good enough quality |
-| **Investigator** | GPT-5.2 | Failure diagnosis, root-cause analysis | Deep reasoning, code understanding |
-| **Nightly Handoff** | o4-mini | Budget batch work, simple tasks | Cost efficiency, decent quality |
+| **Architect** | Claude Sonnet / Opus | Planning, decomposition, system design | Abstract reasoning, code quality |
+| **Critique** | Claude Opus (same `claude` CLI) | Review, critique, risk identification | Analytical depth, long context |
+| **Implementer** | Codex (GPT) | Code generation, refactoring, execution | Long context, reasoning, code generation |
+| **Concierge** | OpenAI / Anthropic fallback | Fast streaming chat, broad knowledge | Low latency, good enough quality |
+| **Investigator** | Claude / Codex | Failure diagnosis, root-cause analysis | Deep reasoning, code understanding |
+| **Nightly Handoff** | Codex fast tier | Budget batch work, simple tasks | Cost efficiency, decent quality |
 
 ### Council Phases
 
 | Phase | Current Agent | Model Selection Rationale |
 |---|---|---|
-| **Propose** | Claude (Opus 4.6) | Best at architectural thinking, ARC-AGI-2 #1 |
-| **Critique** | Gemini (3 Pro) | Strong analysis, different perspective, GPQA near-#1 |
-| **Refine** | Claude (Opus 4.6) | Synthesizes feedback into coherent plan |
-| **Implement** | Codex (GPT-5.4) | SWE-bench Pro #1, 1.05M context |
+| **Propose** | Claude | Architectural thinking and planning |
+| **Critique** | Opus (via `claude`) | Independent review on a stronger model slot |
+| **Refine** | Claude | Synthesizes feedback into a coherent plan |
+| **Implement** | Codex | Code generation and refactoring |
 
 ### Forge Pipeline Phases
 
 | Phase | Current Agent | Model Selection Rationale |
 |---|---|---|
-| **ANALYZE** | Gemini | Broad analysis, codebase scanning |
+| **ANALYZE** | Opus | Broad analysis, codebase scanning |
 | **DESIGN** | Claude | Architectural design, spec creation |
-| **CRITIQUE** | Gemini | Independent review, gap identification |
+| **CRITIQUE** | Opus | Independent review, gap identification |
 | **REFINE** | Claude | Integration of feedback, finalization |
 | **TEST** | (any) | Validation |
 
@@ -613,7 +613,7 @@
 
 | Phase | Typical Agent | Model Selection Rationale |
 |---|---|---|
-| **RESEARCH** | Gemini | Codebase scanning, broad analysis |
+| **RESEARCH** | Opus | Codebase scanning, broad analysis |
 | **DELIBERATE** | Council (all) | Multi-perspective evaluation |
 | **PLAN** | Claude | Detailed implementation planning |
 | **IMPLEMENT** | Codex | Fast code generation |
@@ -652,25 +652,24 @@
 | **cheap** | `o4-mini` | Same model, best budget reasoning |
 | *alt-default* | `gpt-5.2` | When deep reasoning > speed (GPQA 93.2%) |
 
-#### Gemini Agent
+#### Opus Agent (critique — same Claude CLI)
 
 | Preset | Model | Rationale |
 |---|---|---|
-| **default** | `gemini-3-pro-preview` | Grandmaster coding, GPQA 91.9%, Arena #1 |
-| **fast** | `gemini-3-flash-preview` | SWE-bench 78% at $0.50/$3 (!) |
-| **cheap** | `gemini-3-flash-preview` | Same model — already cheapest frontier |
-| *alt-cheap* | `gemini-2.5-flash` | GA stable, $0.30/$2.50, if preview instability is a concern |
+| **default** | `claude-opus-4-6` | Strongest Claude critique / analysis slot |
+| **fast** | `claude-sonnet-4-6` | Faster critique when cost/latency matters |
+| **cheap** | `claude-haiku-4-5` | Light review / triage |
 
 ### Role Assignments
 
 | Role | Agent | Model | Reasoning | Rationale |
 |---|---|---|---|---|
-| **architect** | claude | `claude-sonnet-4-6` (default) | adaptive | Strong agentic coding at 40% lower cost; Opus available for highest-complexity |
-| **analyst** | gemini | `gemini-3-pro-preview` | thinking_level: HIGH | Best Arena ELO, GPQA 91.9%, 1M context |
-| **implementer** | codex | `gpt-5.4` | none | SWE-bench Pro 57.7%, 1.05M context |
-| **concierge** | codex | `gpt-5` | low | Fast streaming, broad knowledge, $1.25/$10 |
-| **investigator** | codex | `gpt-5.2` | xhigh | Best deep reasoning (GPQA 93.2%, FrontierMath 40.3%) |
-| **nightlyHandoff** | codex | `o4-mini` | low | Budget-friendly, decent SWE-bench 68.1%, great math |
+| **architect** | claude | `claude-sonnet-4-6` (default) | adaptive | Strong agentic coding; Opus slot available for highest complexity |
+| **critique** | opus | `claude-opus-4-6` | adaptive | Independent review on Opus via the same `claude` CLI |
+| **implementer** | codex | `gpt-5.4` | none | Code generation and refactoring |
+| **concierge** | codex | `gpt-5` | low | Fast streaming, broad knowledge |
+| **investigator** | claude | `claude-opus-4-6` | adaptive | Deep diagnosis |
+| **nightlyHandoff** | codex | `o4-mini` | low | Budget-friendly batch work |
 
 ### Concierge Fallback Chain
 
