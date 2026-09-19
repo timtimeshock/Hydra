@@ -39,7 +39,7 @@ hydra init                         # Generate HYDRA.md in current directory
 hydra init --project-name=MyApp    # With custom project name
 ```
 
-This creates `HYDRA.md` and syncs per-agent instruction files (`CLAUDE.md`, `GEMINI.md`, `AGENTS.md`).
+This creates `HYDRA.md` and syncs per-agent instruction files (`CLAUDE.md`, `OPUS.md`, `AGENTS.md`).
 
 ## Client Commands
 
@@ -225,8 +225,8 @@ The concierge is a multi-provider conversational AI layer with automatic fallbac
 
 - **auto** (default): Runs a mini-round triage, then either delegates via handoff or escalates to full council
 - **handoff**: Direct delegation to all agents (fastest, no triage)
-- **council**: Full multi-round deliberation with structured synthesis (Claude propose -> Gemini critique -> Claude refine -> Codex implement)
-- **dispatch**: Headless pipeline (Claude coordinate -> Gemini critique -> Codex synthesize)
+- **council**: Full multi-round deliberation with structured synthesis (Claude propose → Opus critique → Claude refine → Codex implement)
+- **dispatch**: Headless pipeline (Claude coordinate → Opus critique → Codex synthesize)
 - **smart**: Auto-selects model tier per prompt complexity (simple->economy, medium->balanced, complex->performance)
 - **chat**: Concierge conversation mode (set automatically when concierge is active)
 
@@ -499,7 +499,7 @@ pwsh -File bin/hydra.ps1 [-Prompt "..."]
 
 This starts:
 1. Daemon (if not running)
-2. Three agent head terminals (Gemini, Codex, Claude)
+2. Three agent head terminals (Claude, Opus, Codex)
 3. Operator console
 
 One-shot mode: `pwsh -File bin/hydra.ps1 -Prompt "Your objective"`

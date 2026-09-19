@@ -35,8 +35,8 @@ Shared architecture section.
 ## @claude
 Claude-only stuff.
 
-## @gemini
-Gemini-only stuff.
+## @opus
+Opus-only stuff.
 
 ## @codex
 Codex-only stuff.
@@ -48,12 +48,12 @@ Codex-only stuff.
     assert.ok(result.shared.includes('Shared architecture section.'));
 
     assert.ok(result.agents.claude.includes('Claude-only stuff.'));
-    assert.ok(result.agents.gemini.includes('Gemini-only stuff.'));
+    assert.ok(result.agents.opus.includes('Opus-only stuff.'));
     assert.ok(result.agents.codex.includes('Codex-only stuff.'));
 
     // Agent sections should NOT appear in shared
     assert.ok(!result.shared.includes('Claude-only'));
-    assert.ok(!result.shared.includes('Gemini-only'));
+    assert.ok(!result.shared.includes('Opus-only'));
     assert.ok(!result.shared.includes('Codex-only'));
   });
 
@@ -63,7 +63,7 @@ Codex-only stuff.
 
     assert.ok(result.shared.includes('Do stuff.'));
     assert.equal(result.agents.claude, '');
-    assert.equal(result.agents.gemini, '');
+    assert.equal(result.agents.opus, '');
     assert.equal(result.agents.codex, '');
   });
 
@@ -99,20 +99,20 @@ Shared content.
 ## @claude
 Claude specific.
 
-## @gemini
-Gemini specific.
+## @opus
+Opus specific.
 `;
     const parsed = parseHydraMd(content);
 
     const claudeOut = buildAgentFile('claude', parsed);
     assert.ok(claudeOut.includes('Shared content.'));
     assert.ok(claudeOut.includes('Claude specific.'));
-    assert.ok(!claudeOut.includes('Gemini specific.'));
+    assert.ok(!claudeOut.includes('Opus specific.'));
 
-    const geminiOut = buildAgentFile('gemini', parsed);
-    assert.ok(geminiOut.includes('Shared content.'));
-    assert.ok(geminiOut.includes('Gemini specific.'));
-    assert.ok(!geminiOut.includes('Claude specific.'));
+    const opusOut = buildAgentFile('opus', parsed);
+    assert.ok(opusOut.includes('Shared content.'));
+    assert.ok(opusOut.includes('Opus specific.'));
+    assert.ok(!opusOut.includes('Claude specific.'));
   });
 
   it('works when agent has no specific section', () => {
@@ -144,7 +144,7 @@ describe('syncHydraMd', () => {
     assert.equal(result.skipped, false);
     assert.equal(result.synced.length, 3);
     assert.ok(result.synced.includes('CLAUDE.md'));
-    assert.ok(result.synced.includes('GEMINI.md'));
+    assert.ok(result.synced.includes('OPUS.md'));
     assert.ok(result.synced.includes('AGENTS.md'));
 
     // Verify file contents
@@ -153,9 +153,9 @@ describe('syncHydraMd', () => {
     assert.ok(claudeContent.includes('Shared.'));
     assert.ok(claudeContent.includes('For Claude.'));
 
-    const geminiContent = fs.readFileSync(path.join(tmpDir, 'GEMINI.md'), 'utf8');
-    assert.ok(geminiContent.includes('Shared.'));
-    assert.ok(!geminiContent.includes('For Claude.'));
+    const opusContent = fs.readFileSync(path.join(tmpDir, 'OPUS.md'), 'utf8');
+    assert.ok(opusContent.includes('Shared.'));
+    assert.ok(!opusContent.includes('For Claude.'));
   });
 
   it('is idempotent — second sync writes nothing', () => {
@@ -198,7 +198,7 @@ describe('getAgentInstructionFile', () => {
 
   it('returns CLAUDE.md fallback when no HYDRA.md', () => {
     assert.equal(getAgentInstructionFile('claude', tmpDir), 'CLAUDE.md');
-    assert.equal(getAgentInstructionFile('gemini', tmpDir), 'CLAUDE.md');
+    assert.equal(getAgentInstructionFile('opus', tmpDir), 'CLAUDE.md');
     assert.equal(getAgentInstructionFile('codex', tmpDir), 'CLAUDE.md');
   });
 
@@ -206,7 +206,7 @@ describe('getAgentInstructionFile', () => {
     fs.writeFileSync(path.join(tmpDir, 'HYDRA.md'), '# Test\n', 'utf8');
 
     assert.equal(getAgentInstructionFile('claude', tmpDir), 'CLAUDE.md');
-    assert.equal(getAgentInstructionFile('gemini', tmpDir), 'GEMINI.md');
+    assert.equal(getAgentInstructionFile('opus', tmpDir), 'OPUS.md');
     assert.equal(getAgentInstructionFile('codex', tmpDir), 'AGENTS.md');
   });
 });
@@ -216,7 +216,7 @@ describe('getAgentInstructionFile', () => {
 describe('AGENT_FILES', () => {
   it('maps all three agents', () => {
     assert.equal(AGENT_FILES.claude, 'CLAUDE.md');
-    assert.equal(AGENT_FILES.gemini, 'GEMINI.md');
+    assert.equal(AGENT_FILES.opus, 'OPUS.md');
     assert.equal(AGENT_FILES.codex, 'AGENTS.md');
   });
 });

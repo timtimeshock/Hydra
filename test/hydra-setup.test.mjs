@@ -411,7 +411,7 @@ describe('generateHydraMdTemplate', () => {
   it('includes agent section headings', () => {
     const template = generateHydraMdTemplate();
     assert.ok(template.includes('## @claude'));
-    assert.ok(template.includes('## @gemini'));
+    assert.ok(template.includes('## @opus'));
     assert.ok(template.includes('## @codex'));
   });
 
@@ -442,7 +442,7 @@ describe('main init', () => {
     assert.strictEqual(result.ok, true);
     assert.ok(fs.existsSync(path.join(targetDir, 'HYDRA.md')));
     assert.ok(fs.existsSync(path.join(targetDir, 'CLAUDE.md')));
-    assert.ok(fs.existsSync(path.join(targetDir, 'GEMINI.md')));
+    assert.ok(fs.existsSync(path.join(targetDir, 'OPUS.md')));
     assert.ok(fs.existsSync(path.join(targetDir, 'AGENTS.md')));
     assert.match(fs.readFileSync(path.join(targetDir, 'HYDRA.md'), 'utf8'), /TargetProject/);
   });
@@ -460,9 +460,9 @@ Original project instructions.
 
 Claude instructions.
 
-## @gemini
+## @opus
 
-Gemini instructions.
+Opus instructions.
 
 ## @codex
 
@@ -477,7 +477,7 @@ Codex instructions.
     assert.strictEqual(result.ok, true);
     assert.strictEqual(fs.readFileSync(hydraMdPath, 'utf8'), existingHydraMd);
     assert.ok(fs.existsSync(path.join(targetDir, 'CLAUDE.md')));
-    assert.ok(fs.existsSync(path.join(targetDir, 'GEMINI.md')));
+    assert.ok(fs.existsSync(path.join(targetDir, 'OPUS.md')));
     assert.ok(fs.existsSync(path.join(targetDir, 'AGENTS.md')));
     assert.match(fs.readFileSync(path.join(targetDir, 'AGENTS.md'), 'utf8'), /Codex instructions\./);
   });

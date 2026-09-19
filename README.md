@@ -3,7 +3,7 @@
 [![CI](https://github.com/timtimeshock/Hydra/actions/workflows/ci.yml/badge.svg)](https://github.com/timtimeshock/Hydra/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-**Multi-agent AI orchestrator** for [Claude Code](https://docs.anthropic.com/en/docs/claude-code) and [Codex CLI](https://github.com/openai/codex) (optional [Gemini CLI](https://github.com/google-gemini/gemini-cli)).
+**Multi-agent AI orchestrator** for [Claude Code](https://docs.anthropic.com/en/docs/claude-code) and [Codex CLI](https://github.com/openai/codex).
 
 > **Status:** Active development. APIs may change between releases.
 
@@ -11,7 +11,7 @@
   <img src="docs/images/hydra-gui.png" alt="Hydra desktop GUI — Architect, Critique, Implement" width="900">
 </p>
 
-Hydra is a **local orchestrator**. It does not replace Claude or Codex — it runs them together through a shared HTTP daemon, task queue, desktop GUI, and multi-round **Council**.
+Hydra is a **local orchestrator**. It does not replace Claude or Codex — it runs them together (Claude architect, Opus critique on the same `claude` CLI, Codex implement) through a shared HTTP daemon, task queue, desktop GUI, and multi-round **Council**.
 
 ## What Hydra is / is not
 
@@ -31,7 +31,6 @@ If `claude` and `codex` do not already work on your machine, Hydra’s Chat / Se
 | **PowerShell 7+** | Windows launchers (Linux/macOS can call Node directly) |
 | **`claude` on PATH** | [Claude Code](https://docs.anthropic.com/en/docs/claude-code) must be installed and able to run a prompt. **Opus is not a separate product** — Council critique uses the same `claude` binary with an Opus model id. |
 | **`codex` on PATH** | [Codex CLI](https://github.com/openai/codex) must be installed and able to run a prompt. |
-| **Gemini CLI** | Optional. Default Council critique uses Opus via `claude`, not Gemini. |
 | **`gh` CLI** | Optional, for GitHub features |
 
 Install the agent CLIs yourself (examples):
@@ -39,7 +38,6 @@ Install the agent CLIs yourself (examples):
 ```bash
 npm install -g @anthropic-ai/claude-code
 npm install -g @openai/codex
-# optional: npm install -g @google/gemini-cli
 ```
 
 Then verify **outside** Hydra:
@@ -98,7 +96,7 @@ npm run setup
 
 This will:
 
-1. Detect `claude` / `codex` / `gemini` on PATH  
+1. Detect `claude` / `codex` on PATH  
 2. Register Hydra’s MCP server with installed CLIs (when present)  
 3. Ensure default **model slots** in `hydra.config.json` (Claude / Opus / Codex)
 
@@ -163,7 +161,7 @@ hydra setup --uninstall    # remove MCP registration
 - **Per-agent model switching**: Trade quality for speed/cost at runtime
 - **Interactive model picker**: Type-to-filter browser with reasoning effort configuration
 - **Headless workers**: Background agent execution with claim-execute-report loop
-- **Agent Forge**: Multi-model agent creation pipeline — Gemini analyzes, Claude designs, Gemini critiques, Claude refines, optional live test
+- **Agent Forge**: Multi-model agent creation pipeline — Opus analyzes, Claude designs, Opus critiques, Claude refines, optional live test
 
 ### Monitoring & Safety
 
@@ -220,7 +218,7 @@ hydra setup --uninstall    # remove MCP registration
 | `:mode smart` | Auto-select model tier per prompt complexity |
 | `:mode handoff` | Direct handoffs (fast, no triage) |
 | `:mode council` | Full council deliberation |
-| `:mode dispatch` | Headless pipeline (Claude→Gemini→Codex) |
+| `:mode dispatch` | Headless pipeline (Claude→Opus→Codex) |
 | `:mode [economy\|balanced\|performance]` | Show or set routing mode. Economy boosts local LLM for impl/testing; performance favors cloud. |
 | `:model` | Show mode & active models |
 | `:model claude=sonnet` | Override agent model |

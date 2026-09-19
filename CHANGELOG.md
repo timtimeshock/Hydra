@@ -18,6 +18,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Documentation clarifies that Hydra orchestrates existing CLIs and does not install them
 - README / INSTALL / SECURITY written for a public GitHub first release (English)
+- Agent instruction sync: `GEMINI.md` / `@gemini` replaced by `OPUS.md` / `@opus`
+- Removed household-only house rules from published agent markdown
+- Agent Forge analyze/critique phases use Opus instead of Gemini CLI
+- README / USAGE / ARCHITECTURE Council and dispatch docs match Claude → Opus → Codex
 
 ## [1.2.0]
 

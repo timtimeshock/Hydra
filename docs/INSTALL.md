@@ -10,7 +10,7 @@ All documentation is in **English**. Hydra is a local orchestrator for agent CLI
 | **PowerShell** | 7+ | Windows launchers |
 | **`claude` CLI** | Working on PATH | [Claude Code](https://docs.anthropic.com/en/docs/claude-code). Opus uses this same binary. |
 | **`codex` CLI** | Working on PATH | [Codex CLI](https://github.com/openai/codex) |
-| **Gemini CLI** | Optional | Not required for default Council |
+| **`gh` CLI** | Optional | GitHub features |
 
 Hydra does **not** install or authenticate Claude/Codex. Any login that makes those CLIs work is fine.
 
@@ -19,7 +19,6 @@ Hydra does **not** install or authenticate Claude/Codex. Any login that makes th
 ```bash
 npm install -g @anthropic-ai/claude-code
 npm install -g @openai/codex
-# optional: npm install -g @google/gemini-cli
 ```
 
 Verify outside Hydra (`claude -p "ping"`, `codex --help`) before debugging Hydra.
@@ -29,7 +28,7 @@ Verify outside Hydra (`claude -p "ping"`, `codex --help`) before debugging Hydra
 ### 1. Clone
 
 ```bash
-git clone https://github.com/<you>/Hydra.git
+git clone https://github.com/timtimeshock/Hydra.git
 cd Hydra
 ```
 

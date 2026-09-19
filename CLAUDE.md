@@ -46,17 +46,17 @@ No linter or build step — pure ESM, runs directly with Node.js.
 
 ## Architecture
 
-Hydra orchestrates three AI coding agents (Claude Code CLI, Gemini CLI, Codex CLI) through a shared HTTP daemon with task queue, intelligent routing, and multiple dispatch modes.
+Hydra orchestrates three roles — **Claude** (architect), **Opus** (critique, same `claude` CLI + Opus model), and **Codex** (implementer) — through a shared HTTP daemon with task queue, intelligent routing, and Council.
 
 ### Core Flow
 
 ```
-Operator Console (REPL)
-    ├── Concierge (multi-provider streaming: OpenAI → Anthropic → Google fallback)
+Operator Console (REPL) / Desktop GUI
+    ├── Concierge (multi-provider chat when API keys configured)
     └── Daemon (HTTP API, port 4173, event-sourced state)
-         ├── Gemini  (analyst role, gemini-3.1-pro-preview)
-         ├── Codex   (implementer role, gpt-5.4)
-         └── Claude  (architect role, claude-opus-4-6)
+         ├── Claude  (architect)
+         ├── Opus    (critique — claude CLI + Opus model)
+         └── Codex   (implementer)
 ```
 
 > For full module reference, dispatch modes, route strategies, and architectural patterns, see [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md).
@@ -65,7 +65,7 @@ Operator Console (REPL)
 
 - **ESM only** (`"type": "module"` in package.json). All files use `import`/`export`.
 - **Four dependencies**: `picocolors` (terminal colors), `cross-spawn` (cross-platform spawning), `@modelcontextprotocol/sdk` (MCP server), `zod` (schema validation for MCP tools). Optional peer: `@opentelemetry/api` (tracing, no-op when absent).
-- **Agent names** are always lowercase strings: `claude`, `gemini`, `codex`, `local`, plus any user-defined names from `agents.customAgents[]`. `local` is the 4th built-in physical agent (API-backed via `hydra-local.mjs`, no CLI). Custom agents are registered via `:agents add` (wizard) or directly in `hydra.config.json`; type `cli` spawns a local CLI tool, type `api` calls an OpenAI-compatible endpoint. CLI agents missing from PATH fall back to cloud transparently via `executeAgentWithRecovery`. Config: `agents.customAgents[]` (see `hydra-agents-wizard.mjs`), `local.enabled`, `.baseUrl`, `.model`, `.budgetGate`. `routing.mode` (`economy`|`balanced`|`performance`) shifts affinity toward `local` in economy mode.
+- **Agent names** are always lowercase strings: `claude`, `opus`, `codex`, `local`, plus any user-defined names from `agents.customAgents[]`. `local` is an optional API-backed agent (via `hydra-local.mjs`, no CLI). Custom agents are registered via `:agents add` (wizard) or directly in `hydra.config.json`; type `cli` spawns a local CLI tool, type `api` calls an OpenAI-compatible endpoint. CLI agents missing from PATH fall back to cloud transparently via `executeAgentWithRecovery`. Config: `agents.customAgents[]` (see `hydra-agents-wizard.mjs`), `local.enabled`, `.baseUrl`, `.model`, `.budgetGate`. `routing.mode` (`economy`|`balanced`|`performance`) shifts affinity toward `local` in economy mode.
 - **HTTP helpers**: Use `request()` from `hydra-utils.mjs` for daemon calls. Status bar uses `fetch()` directly (lightweight polling).
 - **Config access**: `loadHydraConfig()` returns cached config. `getRoleConfig(roleName)` for role-specific model/agent lookups.
 - **Model references**: Config-driven via `roles` and `models` sections in `hydra-config.mjs`. Don't hardcode model IDs — use `getActiveModel(agent)` or `getRoleConfig(role)`. Codex always requires an explicit `--model` flag (its own `~/.codex/config.toml` may differ from Hydra's config).
@@ -87,12 +87,12 @@ Integration tests (`*.integration.test.mjs`) spin up the daemon on an ephemeral 
 
 Two MCP servers are available when working in this project. Use them to get second opinions, delegate work, or cross-verify your reasoning.
 
-### `hydra_ask` — Ask Gemini or Codex directly
+### `hydra_ask` — Ask Opus or Codex directly
 
 Invokes the agent CLI headlessly. No daemon needed.
 
-- **`agent: "gemini"`** — Gemini 3 Pro. Best for: code review, architecture critique, analysis, research, identifying edge cases, security review.
-- **`agent: "codex"`** — Codex (GPT-5.4). Best for: implementation, refactoring, code generation, writing tests, quick prototyping.
+- **`agent: "opus"`** — Same `claude` CLI with Opus model. Best for: code review, architecture critique, analysis, research, edge cases, security review.
+- **`agent: "codex"`** — Codex CLI. Best for: implementation, refactoring, code generation, writing tests, quick prototyping.
 
 **When to use:**
 - Reviewing your own generated code for bugs or missed edge cases
@@ -113,13 +113,11 @@ Direct OpenAI Responses API calls (separate from Hydra's agent CLIs).
 - **`ask_gpt53`** (GPT-5.3) — Deep reasoning. Architecture decisions, complex bugs, security analysis.
 - **`ask_gpt52`** — Alias for `ask_gpt53` (backward compat).
 
-## House rules — Pavel desktop
+## Working rules
 
-1. Hydra je samostatný projekt v `C:\Hydra`. Není součástí Mark 55. Mark 55 neléčit, dokud to Pavel výslovně neřekne.
-2. Jste tři proto, abyste spolupracovali. Když jeden spadne, ostatní zjistí příčinu a opraví to v `C:\Hydra`. Neptat se člověka na věci, které umíte ověřit sami (log, proces, soubor, kód).
-3. Když GUI ukáže „Council běží“ a všichni agenti „volný“, je to chyba zobrazení: council neběží přes daemon frontu. Opravte GUI, ať karta agenta ukazuje „pracuje“. Nenechte to viset.
-4. Odpověď musí být v okně čitelný text, ne useknutý JSON. Po úkolu musí jít Kopírovat. Když text chybí, opravte ukládání výsledku, neříkejte že jste hotoví.
-5. Gemini je agent s CLI (nástroje), ne chatbot. Chat tlačítko je concierge. Gemini CLI: `--approval-mode yolo`. Když jsou `GEMINI_API_KEY` i `GOOGLE_API_KEY`, při startu CLI nechte jen `GEMINI_API_KEY`. API je jen záloha.
-6. Claude: `bypassPermissions`. Codex: `danger-full-access`. Běžíte jako uživatel timti, ne jako správce. Bez souhlasu nic v ovladačích, registru ani USB neměňte.
-7. Nikdy nevytvářejte úkol pro agenta `local`. Tady Ollama není. Publish s `owner=local` je chyba.
-8. Nesahat na Home Assistant, FRITZ, NEWFAST, Škodu.
+1. Prefer verifying logs, processes, files, and code yourself before asking the human.
+2. If the GUI shows Council running while all agents look idle, treat it as a display bug and fix status reporting.
+3. GUI answers must be readable text (not truncated JSON) and copyable.
+4. Opus = `claude` CLI + Opus model. Chat is concierge, not an agent head.
+5. Do not create tasks for agent `local` unless a local LLM is explicitly enabled.
+6. Never commit secrets (`.env`, API keys, tokens).
