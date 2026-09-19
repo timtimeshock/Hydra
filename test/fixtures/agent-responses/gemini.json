@@ -1,0 +1,48 @@
+[
+  {
+    "id": "default",
+    "matchPattern": null,
+    "response": {
+      "ok": true,
+      "output": "Gemini default analysis: scanned the request, highlighted the most likely risk areas, and suggested a focused review pass.",
+      "stdout": "Gemini default analysis: scanned the request, highlighted the most likely risk areas, and suggested a focused review pass.",
+      "stderr": "",
+      "error": null,
+      "exitCode": 0,
+      "signal": null,
+      "durationMs": 1,
+      "timedOut": false
+    }
+  },
+  {
+    "id": "review",
+    "matchPattern": "review|analyze|critique",
+    "response": {
+      "ok": true,
+      "output": "Review findings: auth validation is split across too many call sites, error handling is inconsistent, and the pipeline should preserve the lead agent summary so the follow-up pass can avoid repeating discovery work.",
+      "stdout": "Review findings: auth validation is split across too many call sites, error handling is inconsistent, and the pipeline should preserve the lead agent summary so the follow-up pass can avoid repeating discovery work.",
+      "stderr": "",
+      "error": null,
+      "exitCode": 0,
+      "signal": null,
+      "durationMs": 1,
+      "timedOut": false
+    }
+  },
+  {
+    "id": "rate-limit-error",
+    "matchPattern": "trigger_rate_limit",
+    "response": {
+      "ok": false,
+      "output": "",
+      "stdout": "",
+      "stderr": "Error: 429 Too Many Requests",
+      "error": "Error: 429 Too Many Requests",
+      "exitCode": 1,
+      "signal": null,
+      "durationMs": 1,
+      "timedOut": false,
+      "errorCategory": "rate-limit"
+    }
+  }
+]

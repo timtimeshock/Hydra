@@ -1,0 +1,48 @@
+[
+  {
+    "id": "default",
+    "matchPattern": null,
+    "response": {
+      "ok": true,
+      "output": "Claude default summary: assessed the request, outlined the main constraints, and proposed a pragmatic next step.",
+      "stdout": "Claude default summary: assessed the request, outlined the main constraints, and proposed a pragmatic next step.",
+      "stderr": "",
+      "error": null,
+      "exitCode": 0,
+      "signal": null,
+      "durationMs": 1,
+      "timedOut": false
+    }
+  },
+  {
+    "id": "architecture",
+    "matchPattern": "architect|design|structure|system",
+    "response": {
+      "ok": true,
+      "output": "Architecture review: isolate the dispatch classifier, keep routing heuristics pure, and feed downstream stages explicit route metadata.\n\nRecommended shape: classify first, select collaborators second, then execute with a traceable handoff object so later stages can report decisions without re-deriving intent.",
+      "stdout": "Architecture review: isolate the dispatch classifier, keep routing heuristics pure, and feed downstream stages explicit route metadata.\n\nRecommended shape: classify first, select collaborators second, then execute with a traceable handoff object so later stages can report decisions without re-deriving intent.",
+      "stderr": "",
+      "error": null,
+      "exitCode": 0,
+      "signal": null,
+      "durationMs": 1,
+      "timedOut": false
+    }
+  },
+  {
+    "id": "permission-error",
+    "matchPattern": "trigger_permission_failure",
+    "response": {
+      "ok": false,
+      "output": "",
+      "stdout": "",
+      "stderr": "Error: Permission denied",
+      "error": "Error: Permission denied",
+      "exitCode": 1,
+      "signal": null,
+      "durationMs": 1,
+      "timedOut": false,
+      "errorCategory": "permission"
+    }
+  }
+]

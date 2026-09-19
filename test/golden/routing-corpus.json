@@ -1,0 +1,38 @@
+{
+  "version": 1,
+  "description": "Golden corpus for routing evaluation. Each entry has a prompt and expected classification.",
+  "corpus": [
+    { "prompt": "Fix the typo in the README", "expected": { "routeStrategy": "single", "taskType": "documentation", "tier": "simple" } },
+    { "prompt": "Add a console.log to the main function", "expected": { "routeStrategy": "single", "taskType": "implementation", "tier": "simple" } },
+    { "prompt": "What does the config module export?", "expected": { "routeStrategy": "single", "taskType": "research", "tier": "simple" } },
+    { "prompt": "Rename the variable from camelCase to snake_case in utils.mjs", "expected": { "routeStrategy": "single", "taskType": "refactor", "tier": "simple" } },
+    { "prompt": "Update the API docs for the new endpoint", "expected": { "routeStrategy": "single", "taskType": "documentation", "tier": "simple" } },
+    { "prompt": "Add a unit test for the cache module", "expected": { "routeStrategy": "single", "taskType": "testing", "tier": "simple" } },
+    { "prompt": "Delete the unused helper function", "expected": { "routeStrategy": "single", "taskType": "refactor", "tier": "simple" } },
+    { "prompt": "Check if there are any security vulnerabilities in the auth module", "expected": { "routeStrategy": "single", "taskType": "security", "tier": "simple" } },
+    { "prompt": "Find all TODO comments in the codebase", "expected": { "routeStrategy": "single", "taskType": "analysis", "tier": "simple" } },
+    { "prompt": "Implement the login form with validation", "expected": { "routeStrategy": "single", "taskType": "implementation", "tier": "simple" } },
+
+    { "prompt": "First review the authentication module for security issues, then fix any vulnerabilities you find", "expected": { "routeStrategy": "tandem", "taskType": "security", "tier": "moderate" } },
+    { "prompt": "Analyze the database queries for performance and then optimize the slow ones", "expected": { "routeStrategy": "tandem", "taskType": "analysis", "tier": "moderate" } },
+    { "prompt": "Review the error handling across the API routes and refactor to use a consistent pattern", "expected": { "routeStrategy": "tandem", "taskType": "review", "tier": "moderate" } },
+    { "prompt": "Plan the migration strategy and then implement the database schema changes", "expected": { "routeStrategy": "tandem", "taskType": "planning", "tier": "moderate" } },
+    { "prompt": "Research the best caching strategy and implement it for the API layer", "expected": { "routeStrategy": "tandem", "taskType": "research", "tier": "moderate" } },
+    { "prompt": "Audit the test coverage and write tests for uncovered critical paths", "expected": { "routeStrategy": "tandem", "taskType": "testing", "tier": "moderate" } },
+    { "prompt": "Design the API for the new notification system and build the endpoints", "expected": { "routeStrategy": "tandem", "taskType": "architecture", "tier": "moderate" } },
+    { "prompt": "Review and fix the race conditions in the worker queue", "expected": { "routeStrategy": "tandem", "taskType": "review", "tier": "moderate" } },
+    { "prompt": "Document the architecture first, then refactor to match the documented design", "expected": { "routeStrategy": "tandem", "taskType": "documentation", "tier": "moderate" } },
+    { "prompt": "Investigate the memory leak and then patch the root cause", "expected": { "routeStrategy": "tandem", "taskType": "analysis", "tier": "moderate" } },
+
+    { "prompt": "Redesign the entire authentication system to support OAuth2, SAML, and API keys with proper session management, rate limiting, and audit logging", "expected": { "routeStrategy": "council", "taskType": "architecture", "tier": "complex" } },
+    { "prompt": "Build a comprehensive monitoring and alerting system with custom metrics, dashboards, anomaly detection, and automated remediation workflows", "expected": { "routeStrategy": "council", "taskType": "architecture", "tier": "complex" } },
+    { "prompt": "Refactor the monolithic application into microservices with proper service discovery, circuit breakers, distributed tracing, and event-driven communication", "expected": { "routeStrategy": "council", "taskType": "architecture", "tier": "complex" } },
+    { "prompt": "Design and implement a real-time collaboration system with conflict resolution, presence awareness, offline support, and cross-platform synchronization", "expected": { "routeStrategy": "council", "taskType": "architecture", "tier": "complex" } },
+    { "prompt": "Create a complete CI/CD pipeline with multi-environment deployment, blue-green releases, feature flags, automated rollback, and comprehensive test automation", "expected": { "routeStrategy": "council", "taskType": "planning", "tier": "complex" } },
+    { "prompt": "Build a plugin system architecture that supports hot-reloading, sandboxed execution, dependency injection, versioned APIs, and marketplace distribution", "expected": { "routeStrategy": "council", "taskType": "architecture", "tier": "complex" } },
+    { "prompt": "Implement end-to-end encryption for the messaging system with key management, perfect forward secrecy, group encryption, and device verification", "expected": { "routeStrategy": "council", "taskType": "security", "tier": "complex" } },
+    { "prompt": "Design a multi-tenant data architecture with tenant isolation, cross-tenant analytics, custom schemas per tenant, and automated provisioning", "expected": { "routeStrategy": "council", "taskType": "architecture", "tier": "complex" } },
+    { "prompt": "Build a comprehensive permission system with RBAC, ABAC, resource-level permissions, delegation, and audit trails across all API endpoints", "expected": { "routeStrategy": "council", "taskType": "security", "tier": "complex" } },
+    { "prompt": "Create a data pipeline architecture with stream processing, batch ETL, schema evolution, data quality checks, and lineage tracking", "expected": { "routeStrategy": "council", "taskType": "architecture", "tier": "complex" } }
+  ]
+}

@@ -1,0 +1,46 @@
+# Dependencies & IDE
+node_modules/
+.idea/
+.vscode/
+.serena/
+.claude/
+
+# Secrets & local env (keep .env.example)
+.env*
+!.env.example
+
+# Household / local key helpers — never publish
+set-api-keys.ps1
+set-gemini-now.ps1
+setup-all-api-keys.ps1
+setup-gemini-key.ps1
+setup-keys.ps1
+test-api-keys.ps1
+quick-setup.ps1
+ODPOLEDNE_GUI.md
+
+# Household Mark / Home Assistant experiments — not part of public Hydra
+docs/mark55-home-assistant-voice.md
+lib/mark55-ha-voice-package.mjs
+test/mark55-ha-voice-package.test.mjs
+
+# Runtime / local state
+docs/coordination/
+docs/plans/
+docs/research/
+docs/audit/
+/docs/AUDIT_REPORT.md
+recent-projects.json
+*.log
+gui-log*.txt
+nul
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+# Build artifacts
+.build-exe/
+.pkg-cache/
+dist/
+*.exe
+*.tgz

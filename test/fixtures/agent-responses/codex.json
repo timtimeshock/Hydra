@@ -1,0 +1,58 @@
+[
+  {
+    "id": "default",
+    "matchPattern": null,
+    "response": {
+      "ok": true,
+      "output": "Codex default implementation note: prepared a minimal change plan and identified the most direct code path.",
+      "stdout": "Codex default implementation note: prepared a minimal change plan and identified the most direct code path.",
+      "stderr": "",
+      "error": null,
+      "exitCode": 0,
+      "signal": null,
+      "durationMs": 1,
+      "timedOut": false,
+      "tokenUsage": {
+        "inputTokens": 150,
+        "outputTokens": 80,
+        "totalTokens": 230
+      }
+    }
+  },
+  {
+    "id": "implementation",
+    "matchPattern": "implement|code|write",
+    "response": {
+      "ok": true,
+      "output": "Implementation result: added the requested behavior, covered the main edge cases, and kept the changes scoped to the documented entry points.",
+      "stdout": "Implementation result: added the requested behavior, covered the main edge cases, and kept the changes scoped to the documented entry points.",
+      "stderr": "",
+      "error": null,
+      "exitCode": 0,
+      "signal": null,
+      "durationMs": 1,
+      "timedOut": false,
+      "tokenUsage": {
+        "inputTokens": 220,
+        "outputTokens": 140,
+        "totalTokens": 360
+      }
+    }
+  },
+  {
+    "id": "sandbox-error",
+    "matchPattern": "trigger_sandbox_error",
+    "response": {
+      "ok": false,
+      "output": "",
+      "stdout": "",
+      "stderr": "Error: sandbox violation",
+      "error": "Error: sandbox violation",
+      "exitCode": 1,
+      "signal": null,
+      "durationMs": 1,
+      "timedOut": false,
+      "errorCategory": "sandbox"
+    }
+  }
+]

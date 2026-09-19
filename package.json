@@ -1,0 +1,108 @@
+{
+  "name": "hydra",
+  "version": "1.2.0",
+  "description": "Local multi-agent orchestrator for Claude Code and Codex CLI",
+  "type": "module",
+  "license": "MIT",
+  "author": "Silly Pepper",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/OWNER/Hydra.git"
+  },
+  "homepage": "https://github.com/OWNER/Hydra#readme",
+  "bugs": {
+    "url": "https://github.com/OWNER/Hydra/issues"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "bin": {
+    "hydra": "./bin/hydra-cli.mjs",
+    "hydra-client": "./lib/orchestrator-client.mjs",
+    "hydra-daemon": "./lib/orchestrator-daemon.mjs"
+  },
+  "files": [
+    "bin/",
+    "lib/",
+    "docs/*.md",
+    "docs/research/*.md",
+    "hydra.config.json",
+    "recent-projects.json",
+    "CLAUDE.md",
+    "README.md"
+  ],
+  "scripts": {
+    "start": "node lib/orchestrator-daemon.mjs start",
+    "stop": "node lib/orchestrator-client.mjs stop",
+    "status": "node lib/orchestrator-client.mjs status",
+    "summary": "node lib/orchestrator-client.mjs summary",
+    "stats": "node lib/orchestrator-client.mjs stats",
+    "usage": "node lib/hydra-usage.mjs",
+    "model": "node lib/orchestrator-client.mjs model",
+    "models": "node lib/hydra-models.mjs",
+    "models:select": "node lib/hydra-models-select.mjs",
+    "setup": "node lib/hydra-setup.mjs setup",
+    "postinstall": "node lib/hydra-setup.mjs ensure-models",
+    "init": "node lib/hydra-setup.mjs init",
+    "init:daemon": "node lib/orchestrator-client.mjs init",
+    "gui": "node lib/hydra-gui.mjs",
+    "go": "node lib/hydra-operator.mjs mode=auto",
+    "council": "node lib/hydra-council.mjs",
+    "dispatch": "node lib/hydra-dispatch.mjs",
+    "nightly": "node lib/hydra-nightly.mjs",
+    "audit": "node lib/hydra-audit.mjs",
+    "actualize": "node lib/hydra-actualize.mjs",
+    "actualize:review": "node lib/hydra-actualize-review.mjs review",
+    "actualize:status": "node lib/hydra-actualize-review.mjs status",
+    "actualize:clean": "node lib/hydra-actualize-review.mjs clean",
+    "nightly:review": "node lib/hydra-nightly-review.mjs review",
+    "nightly:status": "node lib/hydra-nightly-review.mjs status",
+    "nightly:clean": "node lib/hydra-nightly-review.mjs clean",
+    "evolve": "node lib/hydra-evolve.mjs",
+    "evolve:review": "node lib/hydra-evolve-review.mjs review",
+    "evolve:status": "node lib/hydra-evolve-review.mjs status",
+    "evolve:clean": "node lib/hydra-evolve-review.mjs clean",
+    "evolve:knowledge": "node lib/hydra-evolve-review.mjs knowledge",
+    "evolve:suggestions": "node lib/hydra-evolve-suggestions-cli.mjs",
+    "tasks": "node lib/hydra-tasks.mjs",
+    "tasks:review": "node lib/hydra-tasks-review.mjs review",
+    "tasks:status": "node lib/hydra-tasks-review.mjs status",
+    "tasks:clean": "node lib/hydra-tasks-review.mjs clean",
+    "research:todo": "node scripts/gen-research-todo.mjs",
+    "eval": "node lib/hydra-eval.mjs",
+    "test": "node --test",
+    "test:report": "node --test --test-reporter=tap --test-reporter-destination=docs/coordination/test-results.tap",
+    "package": "node -e \"require('fs').mkdirSync('dist', { recursive: true })\" && npm pack --pack-destination dist",
+    "package:dry-run": "npm pack --dry-run",
+    "build:exe": "node scripts/build-exe.mjs",
+    "build:exe:ci": "node scripts/build-exe.mjs --ci",
+    "install:global": "npm install -g .",
+    "uninstall:global": "npm uninstall -g hydra"
+  },
+  "pkg": {
+    "scripts": [
+      "bin/**/*.cjs",
+      "bin/**/*.mjs",
+      "lib/**/*.mjs"
+    ],
+    "assets": [
+      "bin/*.ps1",
+      "docs/*.md",
+      "docs/research/*.md",
+      "hydra.config.json",
+      "recent-projects.json",
+      "CLAUDE.md",
+      "README.md"
+    ]
+  },
+  "devDependencies": {
+    "@yao-pkg/pkg": "^6.14.1",
+    "esbuild": "^0.27.3"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.27.1",
+    "cross-spawn": "^7.0.6",
+    "picocolors": "^1.1.1",
+    "zod": "^4.3.6"
+  }
+}

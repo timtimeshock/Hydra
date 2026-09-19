@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Hydra</title>
+  <link rel="icon" type="image/png" href="hydra.png" />
+  <link rel="shortcut icon" href="hydra.ico" />
+  <link rel="stylesheet" href="style.css?v=34" />
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <div>
+        <h1>Hydra</h1>
+        <p class="home">C:\Hydra</p>
+        <p id="project" data-i18n="projectLoading">načítám projekt…</p>
+      </div>
+    </div>
+    <div class="logo"><img src="hydra.png?v=20" alt="Hydra" width="380" height="280" /></div>
+    <div class="meta">
+      <div class="meta-row">
+        <span id="daemon" class="pill off">daemon</span>
+        <span id="net" class="pill" data-i18n="netChecking">síť…</span>
+      </div>
+      <div class="meta-row">
+        <button id="btn-lang" class="ghost" type="button" title="CS · EN · DE">Jazyk: Česky</button>
+        <button id="btn-diagnostics" class="ghost" type="button" data-i18n="diagnostics">Diagnostika</button>
+        <button id="btn-reload" class="ghost" type="button" data-i18n="reload">Obnovit</button>
+      </div>
+    </div>
+  </header>
+
+  <div id="run-status" class="run-status idle" role="status">
+    <strong id="run-title">KLID</strong>
+    <span id="run-detail"></span>
+  </div>
+
+  <section class="agents" id="agents">
+    <article data-agent="claude">
+      <span class="role" data-i18n="roleClaude">architekt</span>
+      <b>Claude</b>
+      <small id="m-claude">—</small>
+      <em id="s-claude">—</em>
+    </article>
+    <article data-agent="opus">
+      <span class="role" data-i18n="roleOpus">kritika</span>
+      <b>Opus</b>
+      <small id="m-opus">—</small>
+      <em id="s-opus">—</em>
+    </article>
+    <article data-agent="codex">
+      <span class="role" data-i18n="roleCodex">zápis</span>
+      <b>Codex</b>
+      <small id="m-codex">—</small>
+      <em id="s-codex">—</em>
+    </article>
+  </section>
+
+  <section class="composer">
+    <div class="answers-head">
+      <h2 data-i18n="composerTitle">Napiš, co má Hydra udělat</h2>
+      <div class="head-actions">
+        <button id="btn-load-prompt" class="ghost" type="button" data-i18n="loadFile">Načíst soubor</button>
+        <button id="btn-copy-prompt" class="ghost" type="button" data-i18n="copy">Kopírovat</button>
+        <button id="btn-clear-prompt" class="ghost" type="button" data-i18n="clear">Smazat</button>
+      </div>
+    </div>
+    <textarea id="prompt" rows="4" data-i18n-placeholder="promptPlaceholder" placeholder="Napiš, co má Hydra udělat… nebo Načíst soubor"></textarea>
+    <input id="prompt-file" type="file" accept=".md,.txt,.text,text/plain,text/markdown" hidden />
+    <div class="actions">
+      <button id="btn-chat" type="button" data-i18n="chat">Chat</button>
+      <button id="btn-send" class="primary" type="button" data-i18n="sendAgents">Odeslat agentům</button>
+      <button id="btn-council" type="button" data-i18n="council">Council</button>
+      <button id="btn-stop" class="stop" type="button" data-i18n="stopAll">⏹ Zastavit vše</button>
+      <button id="btn-clear" class="ghost" type="button" data-i18n="clearBtn">Vyčistit</button>
+    </div>
+    <p id="hint" class="hint" data-i18n="hintDefault">Chat = jen odpověď. Odeslat = agenti. Council = Claude navrhne, Opus zkritizuje, Codex zapíše.</p>
+  </section>
+
+  <section class="answers-wrap">
+    <div class="answers-head">
+      <h2 data-i18n="answersTitle">Odpovědi agentů</h2>
+      <div class="head-actions">
+        <button id="btn-copy-all" class="ghost" type="button" data-i18n="copyAll">Kopírovat vše</button>
+        <button id="btn-clear-answers" class="ghost" type="button" data-i18n="clearAll">Smazat vše</button>
+      </div>
+    </div>
+    <div id="answers"><p class="empty" data-i18n="noAnswers">Zatím žádná odpověď</p></div>
+  </section>
+
+  <section class="split">
+    <div class="pane" id="pane-tasks">
+      <div class="answers-head">
+        <h2><span data-i18n="tasksTitle">Úkoly</span> <span id="job"></span></h2>
+        <div class="head-actions">
+          <button id="btn-copy-tasks" class="ghost" type="button" data-i18n="copy">Kopírovat</button>
+          <button id="btn-clear-tasks" class="ghost" type="button" data-i18n="clear">Smazat</button>
+          <button id="btn-tasks-shrink" class="ghost size" type="button" data-i18n-title="shrink" title="Zmenšit">−</button>
+          <button id="btn-tasks-grow" class="ghost size" type="button" data-i18n-title="grow" title="Zvětšit">+</button>
+        </div>
+      </div>
+      <ul id="tasks" class="tasks"><li class="empty" data-i18n="noTasks">Žádné otevřené úkoly</li></ul>
+    </div>
+    <div class="splitter" id="split-col" data-i18n-title="splitTitle" title="Táhni — šířka Úkoly / Log"></div>
+    <div class="pane" id="pane-log">
+      <div class="answers-head">
+        <h2 data-i18n="logTitle">Log</h2>
+        <div class="head-actions">
+          <button id="btn-copy-log" class="ghost" type="button" data-i18n="copy">Kopírovat</button>
+          <button id="btn-clear-log" class="ghost" type="button" data-i18n="clear">Smazat</button>
+          <button id="btn-log-shrink" class="ghost size" type="button" data-i18n-title="shrink" title="Zmenšit">−</button>
+          <button id="btn-log-grow" class="ghost size" type="button" data-i18n-title="grow" title="Zvětšit">+</button>
+        </div>
+      </div>
+      <pre id="log"></pre>
+    </div>
+  </section>
+
+  <script src="i18n.js?v=5"></script>
+  <script src="app.js?v=37"></script>
+</body>
+</html>

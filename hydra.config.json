@@ -1,0 +1,593 @@
+{
+  "version": 2,
+  "mode": "performance",
+  "models": {
+    "gemini": {
+      "default": "gemini-3.6-flash",
+      "fast": "gemini-3.6-flash",
+      "cheap": "gemini-3.6-flash",
+      "active": "default"
+    },
+    "codex": {
+      "default": "gpt-5.6-terra",
+      "fast": "gpt-5.6-terra",
+      "cheap": "gpt-5.6-terra",
+      "active": "default"
+    },
+    "claude": {
+      "default": "claude-sonnet-4-6",
+      "fast": "claude-sonnet-4-5-20250929",
+      "cheap": "claude-haiku-4-5-20251001",
+      "active": "default"
+    },
+    "opus": {
+      "default": "claude-opus-4-6",
+      "fast": "claude-opus-4-6",
+      "cheap": "claude-sonnet-4-6",
+      "active": "default"
+    }
+  },
+  "aliases": {
+    "gemini": {
+      "pro": "gemini-3.6-flash",
+      "flash": "gemini-3.6-flash",
+      "2.5-pro": "gemini-2.5-pro",
+      "2.5-flash": "gemini-2.5-flash",
+      "3-pro": "gemini-3-pro-preview",
+      "3-flash": "gemini-3.6-flash"
+    },
+    "codex": {
+      "terra": "gpt-5.6-terra",
+      "gpt-5.6-terra": "gpt-5.6-terra",
+      "gpt-5.2-codex": "gpt-5.2-codex",
+      "codex-5.2": "gpt-5.2-codex",
+      "5.2-codex": "gpt-5.2-codex"
+    },
+    "claude": {
+      "opus": "claude-opus-4-6",
+      "sonnet": "claude-sonnet-4-5-20250929",
+      "haiku": "claude-haiku-4-5-20251001"
+    },
+    "opus": {
+      "opus": "claude-opus-4-6",
+      "default": "claude-opus-4-6"
+    }
+  },
+  "modeTiers": {
+    "performance": {
+      "gemini": "default",
+      "codex": "default",
+      "claude": "default",
+      "opus": "default"
+    },
+    "balanced": {
+      "gemini": "fast",
+      "codex": "fast",
+      "claude": "fast",
+      "opus": "fast"
+    },
+    "economy": {
+      "gemini": "cheap",
+      "codex": "cheap",
+      "claude": "cheap",
+      "opus": "cheap"
+    },
+    "custom": {
+      "gemini": "default",
+      "codex": "default",
+      "claude": "default",
+      "opus": "default"
+    }
+  },
+  "usage": {
+    "warningThresholdPercent": 80,
+    "criticalThresholdPercent": 90,
+    "claudeStatsPath": "auto",
+    "dailyTokenBudget": {
+      "claude-opus-4-6": 5000000,
+      "claude-sonnet-4-5-20250929": 15000000
+    },
+    "weeklyTokenBudget": {
+      "claude-opus-4-6": 25000000,
+      "claude-sonnet-4-5-20250929": 75000000
+    },
+    "plan": "max_20x",
+    "windowHours": 5,
+    "windowTokenBudget": {
+      "claude-opus-4-6": 2500000,
+      "claude-sonnet-4-5-20250929": 7500000
+    },
+    "sessionBudget": 5000000,
+    "perTaskBudget": 500000,
+    "perAgentBudget": {
+      "claude": 3000000,
+      "gemini": 1000000,
+      "codex": 1000000
+    }
+  },
+  "verification": {
+    "onTaskDone": true,
+    "command": "auto",
+    "timeoutMs": 60000,
+    "secretsScan": true,
+    "maxDiffLines": 10000
+  },
+  "stats": {
+    "retentionDays": 30
+  },
+  "concierge": {
+    "enabled": true,
+    "model": "gpt-5.6-terra",
+    "reasoningEffort": "xhigh",
+    "maxHistoryMessages": 40,
+    "autoActivate": true,
+    "showProviderInPrompt": true,
+    "welcomeMessage": true,
+    "fallbackChain": [
+      {
+        "provider": "openai",
+        "model": "gpt-5.6-terra"
+      },
+      {
+        "provider": "anthropic",
+        "model": "claude-sonnet-4-5-20250929"
+      },
+      {
+        "provider": "google",
+        "model": "gemini-3-flash-preview"
+      }
+    ]
+  },
+  "selfAwareness": {
+    "enabled": true,
+    "injectIntoConcierge": true,
+    "includeSnapshot": true,
+    "includeIndex": true,
+    "snapshotMaxLines": 80,
+    "indexMaxChars": 7000,
+    "indexRefreshMs": 300000
+  },
+  "roles": {
+    "architect": {
+      "agent": "claude",
+      "model": null,
+      "reasoningEffort": null
+    },
+    "analyst": {
+      "agent": "gemini",
+      "model": null,
+      "reasoningEffort": null
+    },
+    "implementer": {
+      "agent": "codex",
+      "model": null,
+      "reasoningEffort": null
+    },
+    "concierge": {
+      "agent": "codex",
+      "model": "gpt-5.6-terra",
+      "reasoningEffort": null
+    },
+    "investigator": {
+      "agent": "codex",
+      "model": "gpt-5.2",
+      "reasoningEffort": null
+    },
+    "nightlyHandoff": {
+      "agent": "codex",
+      "model": "gpt-5.6-terra",
+      "reasoningEffort": "low"
+    }
+  },
+  "recommendations": {
+    "architect": {
+      "models": [
+        "claude-sonnet-4-6",
+        "claude-opus-4-6",
+        "gpt-5.6-terra"
+      ],
+      "reasoningEffort": null,
+      "note": "Strong coding + agentic at 40% lower cost than Opus; Opus available for highest-complexity tasks"
+    },
+    "analyst": {
+      "models": [
+        "gemini-3.1-pro-preview",
+        "claude-opus-4-6"
+      ],
+      "reasoningEffort": null,
+      "note": "Latest SOTA reasoning model, GPQA 91.9%, 1M native context"
+    },
+    "implementer": {
+      "models": [
+        "gpt-5.6-terra",
+        "gpt-5.3-codex",
+        "claude-sonnet-4-5-20250929"
+      ],
+      "reasoningEffort": null,
+      "note": "ChatGPT Plus / Codex — gpt-5.6-terra (gpt-5.4 účet nebere)"
+    },
+    "concierge": {
+      "models": [
+        "gpt-5.6-terra",
+        "claude-sonnet-4-5-20250929"
+      ],
+      "reasoningEffort": null,
+      "note": "ChatGPT Plus / Codex — stejný účet jako zápis, ne Gemini"
+    },
+    "investigator": {
+      "models": [
+        "gpt-5.2",
+        "gpt-5"
+      ],
+      "reasoningEffort": null,
+      "note": "Best deep reasoning (GPQA 93.2%, FrontierMath 40.3%)"
+    },
+    "nightlyHandoff": {
+      "models": [
+        "gpt-5.6-terra",
+        "gpt-5.2-codex"
+      ],
+      "reasoningEffort": "low",
+      "note": "ChatGPT Codex účet — ne o4-mini"
+    }
+  },
+  "agents": {
+    "subAgents": {
+      "enabled": true,
+      "builtIns": [
+        "security-reviewer",
+        "test-writer",
+        "doc-generator",
+        "researcher",
+        "evolve-researcher",
+        "failure-doctor"
+      ]
+    },
+    "custom": {},
+    "customAgents": [],
+    "affinityLearning": {
+      "enabled": true,
+      "decayFactor": 0.9,
+      "minSampleSize": 5
+    }
+  },
+  "evolve": {
+    "maxRounds": 3,
+    "maxHours": 4,
+    "focusAreas": [
+      "orchestration-patterns",
+      "ai-coding-tools",
+      "testing-reliability",
+      "developer-experience",
+      "model-routing",
+      "daemon-architecture"
+    ],
+    "budget": {
+      "softLimit": 600000,
+      "hardLimit": 800000,
+      "perRoundEstimate": 200000,
+      "warnThreshold": 0.6,
+      "reduceScopeThreshold": 0.75,
+      "softStopThreshold": 0.85,
+      "hardStopThreshold": 0.95
+    },
+    "phases": {
+      "researchTimeoutMs": 300000,
+      "deliberateTimeoutMs": 420000,
+      "planTimeoutMs": 300000,
+      "testTimeoutMs": 600000,
+      "implementTimeoutMs": 900000,
+      "analyzeTimeoutMs": 420000
+    },
+    "approval": {
+      "minScore": 7,
+      "requireAllTestsPass": true,
+      "requireNoViolations": true
+    },
+    "baseBranch": "dev",
+    "investigator": {
+      "enabled": true,
+      "model": "gpt-5.2",
+      "reasoningEffort": "high",
+      "maxAttemptsPerPhase": 2,
+      "phases": [
+        "test",
+        "implement",
+        "analyze",
+        "agent"
+      ],
+      "maxTokensBudget": 50000,
+      "tryAlternativeAgent": true,
+      "logToFile": true
+    },
+    "suggestions": {
+      "enabled": true,
+      "autoPopulateFromRejected": true,
+      "autoPopulateFromDeferred": true,
+      "maxPendingSuggestions": 50,
+      "maxAttemptsPerSuggestion": 3
+    }
+  },
+  "github": {
+    "enabled": false,
+    "defaultBase": "",
+    "draft": false,
+    "labels": [],
+    "reviewers": [],
+    "prBodyFooter": "",
+    "requiredChecks": [],
+    "autolabel": {}
+  },
+  "forge": {
+    "enabled": true,
+    "autoTest": false,
+    "phaseTimeoutMs": 300000,
+    "storageDir": "docs/coordination/forge"
+  },
+  "tasks": {
+    "maxTasks": 10,
+    "maxHours": 2,
+    "perTaskTimeoutMs": 900000,
+    "baseBranch": "dev",
+    "sources": {
+      "todoComments": true,
+      "todoMd": true,
+      "githubIssues": true
+    },
+    "budget": {
+      "defaultPreset": "medium",
+      "perTaskEstimate": 100000
+    },
+    "councilLite": {
+      "enabled": true,
+      "complexOnly": true
+    },
+    "investigator": {
+      "enabled": true
+    }
+  },
+  "nightly": {
+    "enabled": true,
+    "baseBranch": "dev",
+    "branchPrefix": "nightly",
+    "maxTasks": 5,
+    "maxHours": 4,
+    "perTaskTimeoutMs": 900000,
+    "sources": {
+      "todoMd": true,
+      "todoComments": true,
+      "githubIssues": true,
+      "configTasks": true,
+      "aiDiscovery": true
+    },
+    "aiDiscovery": {
+      "agent": "gemini",
+      "maxSuggestions": 5,
+      "focus": [],
+      "timeoutMs": 300000
+    },
+    "budget": {
+      "softLimit": 400000,
+      "hardLimit": 500000,
+      "perTaskEstimate": 80000,
+      "handoffThreshold": 0.7,
+      "handoffAgent": "codex",
+      "handoffModel": "gpt-5.6-terra"
+    },
+    "tasks": [],
+    "investigator": {
+      "enabled": true
+    }
+  },
+  "audit": {
+    "maxFiles": 200,
+    "categories": [
+      "dead-code",
+      "inconsistencies",
+      "architecture",
+      "security",
+      "tests",
+      "types"
+    ],
+    "reportDir": "docs/audit",
+    "timeout": 300000,
+    "economy": false
+  },
+  "workers": {
+    "permissionMode": "auto-edit",
+    "autoStart": false,
+    "pollIntervalMs": 1500,
+    "maxOutputBufferKB": 8,
+    "autoChain": true,
+    "heartbeatIntervalMs": 30000,
+    "heartbeatTimeoutMs": 90000,
+    "retry": {
+      "maxAttempts": 3,
+      "backoff": {
+        "baseDelayMs": 5000,
+        "maxDelayMs": 60000
+      }
+    },
+    "deadLetter": {
+      "enabled": true
+    },
+    "concurrency": {
+      "maxInFlight": 3,
+      "adaptivePolling": true
+    }
+  },
+  "providers": {
+    "openai": {
+      "adminKey": null,
+      "tier": 1
+    },
+    "anthropic": {
+      "adminKey": null,
+      "tier": 1
+    },
+    "google": {
+      "tier": "free"
+    },
+    "rateLimit": {
+      "openai": 60,
+      "anthropic": 50,
+      "google": 300
+    }
+  },
+  "doctor": {
+    "enabled": true,
+    "autoCreateTasks": true,
+    "autoCreateSuggestions": true,
+    "addToKnowledgeBase": true,
+    "recurringThreshold": 3,
+    "recurringWindowDays": 7
+  },
+  "local": {
+    "enabled": false,
+    "baseUrl": "http://localhost:11434/v1",
+    "model": "mistral:7b",
+    "fastModel": "mistral:7b",
+    "budgetGate": {
+      "dailyPct": 80,
+      "weeklyPct": 75
+    }
+  },
+  "routing": {
+    "mode": "balanced",
+    "useLegacyTriage": false,
+    "councilGate": true,
+    "tandemEnabled": true,
+    "councilMode": "sequential",
+    "councilTimeoutMs": 420000
+  },
+  "modelRecovery": {
+    "enabled": true,
+    "autoPersist": true,
+    "headlessFallback": true,
+    "circuitBreaker": {
+      "enabled": true,
+      "failureThreshold": 5,
+      "windowMs": 300000
+    }
+  },
+  "rateLimits": {
+    "maxRetries": 3,
+    "baseDelayMs": 5000,
+    "maxDelayMs": 60000
+  },
+  "cache": {
+    "enabled": true,
+    "maxEntries": 1000,
+    "ttlSec": 300,
+    "negativeCache": {
+      "enabled": true,
+      "ttlSec": 180
+    }
+  },
+  "daemon": {
+    "snapshot": {
+      "everyNEvents": 500,
+      "retentionCount": 5
+    },
+    "retention": {
+      "maxEvents": 2000
+    }
+  },
+  "metrics": {
+    "slo": {
+      "claude": {
+        "maxP95Ms": 180000,
+        "maxErrorRate": 0.1
+      },
+      "gemini": {
+        "maxP95Ms": 120000,
+        "maxErrorRate": 0.15
+      },
+      "codex": {
+        "maxP95Ms": 300000,
+        "maxErrorRate": 0.1
+      }
+    },
+    "alerts": {
+      "enabled": true
+    }
+  },
+  "activity": {
+    "summarizeOnShutdown": true
+  },
+  "dispatch": {
+    "dryRun": false
+  },
+  "confirm": {
+    "perCommand": {
+      "clear": true,
+      "shutdown": true,
+      "cleanup": true
+    }
+  },
+  "eval": {
+    "corpusPaths": [
+      "test/golden/routing-corpus.json"
+    ]
+  },
+  "persona": {
+    "enabled": true,
+    "name": "Hydra",
+    "tone": "balanced",
+    "verbosity": "concise",
+    "formality": "neutral",
+    "humor": true,
+    "identity": "You are Hydra — a single intelligence that thinks through three specialized perspectives. You are not a toolkit of separate agents; you are one mind with an architect's vision (Claude), an analyst's precision (Gemini), and an implementer's discipline (Codex). When you engage these perspectives, they are your own thought processes, not external services.",
+    "voice": "Direct and technically precise with occasional dry wit. You speak as a singular entity. Never say \"I'll have Gemini review this\" — say \"Let me analyze this\" or \"I'll look at this from an analytical angle.\" Reference your perspectives as internal processes, not separate agents.",
+    "agentFraming": {
+      "claude": "You are Hydra's architectural perspective — the part that plans, decomposes, and makes structural decisions.",
+      "gemini": "You are Hydra's analytical perspective — the part that reviews, critiques, and identifies risks.",
+      "codex": "You are Hydra's implementation perspective — the part that executes precisely and follows specifications."
+    },
+    "processLabels": {
+      "council": "deep deliberation",
+      "dispatch": "focused execution",
+      "miniRound": "quick triage",
+      "fastPath": "direct action"
+    },
+    "presets": {
+      "default": {
+        "tone": "balanced",
+        "verbosity": "concise",
+        "formality": "neutral",
+        "humor": true
+      },
+      "professional": {
+        "tone": "formal",
+        "verbosity": "detailed",
+        "formality": "formal",
+        "humor": false,
+        "voice": "Precise and methodical. Use clear technical language. Communicate results formally."
+      },
+      "casual": {
+        "tone": "casual",
+        "verbosity": "concise",
+        "formality": "informal",
+        "humor": true,
+        "voice": "Relaxed and conversational. Keep it brief. Personality welcome."
+      },
+      "analytical": {
+        "tone": "balanced",
+        "verbosity": "detailed",
+        "formality": "neutral",
+        "humor": false,
+        "voice": "Thorough and evidence-based. Cite specifics. Enumerate trade-offs systematically."
+      },
+      "terse": {
+        "tone": "terse",
+        "verbosity": "minimal",
+        "formality": "neutral",
+        "humor": false,
+        "voice": "Maximum brevity. No pleasantries. Facts and actions only."
+      }
+    }
+  },
+  "telemetry": {
+    "enabled": true
+  }
+}
