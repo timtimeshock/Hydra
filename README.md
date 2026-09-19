@@ -1,23 +1,15 @@
 # Hydra
 
+[![CI](https://github.com/timtimeshock/Hydra/actions/workflows/ci.yml/badge.svg)](https://github.com/timtimeshock/Hydra/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 **Multi-agent AI orchestrator** for [Claude Code](https://docs.anthropic.com/en/docs/claude-code) and [Codex CLI](https://github.com/openai/codex) (optional [Gemini CLI](https://github.com/google-gemini/gemini-cli)).
 
 > **Status:** Active development. APIs may change between releases.
 
-```
-   \\ | //
-    \\|//
-   _\\|//_
-  |  \|/  |
-  |  /|\  |
-  \_/ | \_/
-    |   |
-    |___|
-
-  H Y D R A
-```
+<p align="center">
+  <img src="docs/images/hydra-gui.png" alt="Hydra desktop GUI — Architect, Critique, Implement" width="900">
+</p>
 
 Hydra is a **local orchestrator**. It does not replace Claude or Codex — it runs them together through a shared HTTP daemon, task queue, desktop GUI, and multi-round **Council**.
 
@@ -60,7 +52,7 @@ codex --help
 ## Quick start
 
 ```bash
-git clone https://github.com/<you>/Hydra.git
+git clone https://github.com/timtimeshock/Hydra.git
 cd Hydra
 npm install
 npm run setup          # detect CLIs, register MCP, write default models
