@@ -9,26 +9,48 @@ $env:NO_PROXY = if ($env:NO_PROXY) { "$env:NO_PROXY,127.0.0.1,localhost,::1" } e
 $env:no_proxy = $env:NO_PROXY
 Set-Location -LiteralPath $hydraRoot
 
-$guiUrl = "http://127.0.0.1:4176/?v=11"
-$alreadyUp = $false
-try {
-  $null = Invoke-RestMethod -Uri "$guiUrl`api/snapshot" -TimeoutSec 1
-  $alreadyUp = $true
-} catch {
-  $alreadyUp = $false
+$guiBase = "http://127.0.0.1:4176"
+$daemonHealth = "http://127.0.0.1:4173/health"
+$guiUrl = "$guiBase/?v=12"
+$snapshotUrl = "$guiBase/api/snapshot"
+
+function Test-HydraGui {
+  try {
+    $null = Invoke-RestMethod -Uri $snapshotUrl -TimeoutSec 2
+    return $true
+  } catch {
+    return $false
+  }
 }
 
-if (-not $alreadyUp) {
+function Test-HydraDaemon {
+  try {
+    $h = Invoke-RestMethod -Uri $daemonHealth -TimeoutSec 2
+    return ($h.ok -eq $true -and $h.running -eq $true)
+  } catch {
+    return $false
+  }
+}
+
+$guiUp = Test-HydraGui
+$daemonUp = Test-HydraDaemon
+
+if (-not $guiUp) {
   $env:HYDRA_GUI_NO_OPEN = "1"
   Start-Process -FilePath "node" -ArgumentList "`"$hydraRoot\lib\hydra-gui.mjs`"" -WorkingDirectory $env:HYDRA_PROJECT -WindowStyle Hidden
-  $deadline = (Get-Date).AddSeconds(8)
-  do {
-    Start-Sleep -Milliseconds 250
-    try {
-      $null = Invoke-RestMethod -Uri "$guiUrl`api/snapshot" -TimeoutSec 1
-      $alreadyUp = $true
-    } catch { $alreadyUp = $false }
-  } while (-not $alreadyUp -and (Get-Date) -lt $deadline)
+}
+
+# Wait for GUI + daemon (cold boot after reboot can take >8s)
+$deadline = (Get-Date).AddSeconds(25)
+do {
+  if (-not $guiUp) { $guiUp = Test-HydraGui }
+  if (-not $daemonUp) { $daemonUp = Test-HydraDaemon }
+  if ($guiUp -and $daemonUp) { break }
+  Start-Sleep -Milliseconds 300
+} while ((Get-Date) -lt $deadline)
+
+if (-not $daemonUp) {
+  Write-Warning "Hydra daemon is not healthy at $daemonHealth — opening GUI anyway (it will retry)."
 }
 
 $edge = @(

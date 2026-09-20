@@ -5,7 +5,7 @@ const DEFAULT_PROMPT = `Ověř opravy v C:\\Hydra. Nic mimo C:\\Hydra. Klíče a
 
 1) hydra-council.mjs: publish/handoff jen claude, opus, codex — ne local.
 2) Po Council musí být v okně čitelná odpověď.
-3) Kritiku dělá Opus (stejné CLI `claude`), zápis Codex.
+3) Kritiku dělá Opus (stejné CLI claude), zápis Codex.
 
 Když to v souborech už je, nic nepřepisuj. Ohlas, co jsi ověřil.`;
 
@@ -607,7 +607,10 @@ $('btn-diagnostics').onclick = async () => {
   }
 };
 
-$('btn-reload').onclick = () => {
+$('btn-reload').onclick = async () => {
+  try {
+    await fetch('/api/daemon/ensure', { method: 'POST' });
+  } catch { /* GUI may still recover via watchdog */ }
   const url = new URL(location.href);
   url.searchParams.set('v', String(Date.now()));
   location.replace(url.toString());
