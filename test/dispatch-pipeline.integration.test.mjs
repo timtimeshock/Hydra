@@ -13,17 +13,17 @@ import {
   makeSuccessResult,
 } from './helpers/mock-agent.mjs';
 
-const ALL_AGENTS = ['claude', 'gemini', 'codex'];
+const ALL_AGENTS = ['claude', 'opus', 'codex'];
 const EXPECTED_TANDEM_PAIRS = {
   planning: { lead: 'claude', follow: 'codex' },
-  architecture: { lead: 'claude', follow: 'gemini' },
-  review: { lead: 'gemini', follow: 'claude' },
+  architecture: { lead: 'claude', follow: 'opus' },
+  review: { lead: 'opus', follow: 'claude' },
   refactor: { lead: 'claude', follow: 'codex' },
   implementation: { lead: 'claude', follow: 'codex' },
-  analysis: { lead: 'gemini', follow: 'claude' },
-  testing: { lead: 'codex', follow: 'gemini' },
-  security: { lead: 'gemini', follow: 'claude' },
-  research: { lead: 'gemini', follow: 'claude' },
+  analysis: { lead: 'opus', follow: 'claude' },
+  testing: { lead: 'codex', follow: 'opus' },
+  security: { lead: 'opus', follow: 'claude' },
+  research: { lead: 'opus', follow: 'claude' },
   documentation: { lead: 'claude', follow: 'codex' },
 };
 
@@ -43,6 +43,7 @@ const [claudeFixtures, geminiFixtures, codexFixtures] = await Promise.all([
 
 const mockExecuteAgent = createMockExecuteAgent({
   claude: claudeFixtures,
+  opus: claudeFixtures, // Opus = Claude CLI with --model opus
   gemini: geminiFixtures,
   codex: codexFixtures,
 });
@@ -222,7 +223,7 @@ describe('classifyPrompt route strategy', () => {
     const result = classifyPrompt('first analyze the auth module then fix the security issues');
 
     assert.equal(result.routeStrategy, 'tandem');
-    assert.deepEqual(result.tandemPair, { lead: 'gemini', follow: 'claude' });
+    assert.deepEqual(result.tandemPair, { lead: 'opus', follow: 'claude' });
   });
 
   it('routes a strategic multi-objective prompt through the council path', () => {
@@ -454,7 +455,7 @@ describe('dispatch pipeline integration', () => {
       const tandemPair = selectTandemPair(classification.taskType, classification.suggestedAgent, ALL_AGENTS);
 
       assert.equal(classification.routeStrategy, 'tandem');
-      assert.deepEqual(tandemPair, { lead: 'gemini', follow: 'claude' });
+      assert.deepEqual(tandemPair, { lead: 'opus', follow: 'claude' });
 
       const leadResult = await mockExecuteAgent(tandemPair.lead, prompt, {});
       const followPrompt = `${leadResult.output}\n\n[follow]\n${prompt}`;
@@ -479,7 +480,7 @@ describe('dispatch pipeline integration', () => {
         routeStrategy: 'tandem',
         taskType: 'security',
         stages: [
-          { agent: 'gemini', ok: true, exitCode: 0 },
+          { agent: 'opus', ok: true, exitCode: 0 },
           { agent: 'claude', ok: true, exitCode: 0, receivedLeadOutput: true },
         ],
       });

@@ -12,7 +12,7 @@
       "default": "gpt-5.6-terra",
       "fast": "gpt-5.6-terra",
       "cheap": "gpt-5.6-terra",
-      "active": "default"
+      "active": "gpt-5.6-terra"
     },
     "claude": {
       "default": "claude-sonnet-4-6",
@@ -21,62 +21,56 @@
       "active": "default"
     },
     "opus": {
-      "default": "claude-opus-4-6",
-      "fast": "claude-opus-4-6",
-      "cheap": "claude-sonnet-4-6",
+      "default": "claude-haiku-4-5-20251001",
+      "fast": "claude-haiku-4-5-20251001",
+      "cheap": "claude-haiku-4-5-20251001",
       "active": "default"
     }
   },
   "aliases": {
     "gemini": {
-      "pro": "gemini-3.6-flash",
-      "flash": "gemini-3.6-flash",
+      "pro": "gemini-3-pro-preview",
+      "flash": "gemini-3-flash-preview",
       "2.5-pro": "gemini-2.5-pro",
       "2.5-flash": "gemini-2.5-flash",
       "3-pro": "gemini-3-pro-preview",
-      "3-flash": "gemini-3.6-flash"
+      "3-flash": "gemini-3-flash-preview"
     },
     "codex": {
-      "terra": "gpt-5.6-terra",
-      "gpt-5.6-terra": "gpt-5.6-terra",
+      "gpt5": "gpt-5",
+      "gpt-5": "gpt-5",
       "gpt-5.2-codex": "gpt-5.2-codex",
       "codex-5.2": "gpt-5.2-codex",
-      "5.2-codex": "gpt-5.2-codex"
+      "5.2-codex": "gpt-5.2-codex",
+      "o4-mini": "o4-mini",
+      "o4mini": "o4-mini"
     },
     "claude": {
       "opus": "claude-opus-4-6",
       "sonnet": "claude-sonnet-4-5-20250929",
       "haiku": "claude-haiku-4-5-20251001"
-    },
-    "opus": {
-      "opus": "claude-opus-4-6",
-      "default": "claude-opus-4-6"
     }
   },
   "modeTiers": {
     "performance": {
       "gemini": "default",
       "codex": "default",
-      "claude": "default",
-      "opus": "default"
+      "claude": "default"
     },
     "balanced": {
       "gemini": "fast",
       "codex": "fast",
-      "claude": "fast",
-      "opus": "fast"
+      "claude": "fast"
     },
     "economy": {
       "gemini": "cheap",
       "codex": "cheap",
-      "claude": "cheap",
-      "opus": "cheap"
+      "claude": "cheap"
     },
     "custom": {
       "gemini": "default",
       "codex": "default",
-      "claude": "default",
-      "opus": "default"
+      "claude": "default"
     }
   },
   "usage": {
@@ -228,7 +222,7 @@
         "gpt-5.2-codex"
       ],
       "reasoningEffort": "low",
-      "note": "ChatGPT Codex účet — ne o4-mini"
+      "note": "ChatGPT Codex účet — o4-mini/gpt-5/gpt-5.4 CLI nebere"
     }
   },
   "agents": {
@@ -372,7 +366,7 @@
       "perTaskEstimate": 80000,
       "handoffThreshold": 0.7,
       "handoffAgent": "codex",
-      "handoffModel": "gpt-5.6-terra"
+      "handoffModel": "o4-mini"
     },
     "tasks": [],
     "investigator": {

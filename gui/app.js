@@ -19,6 +19,9 @@ function refreshButtons() {
     const btn = $(id);
     if (btn) btn.disabled = busy;
   });
+  document.querySelectorAll('.agent-run, .model-menu').forEach((el) => {
+    el.disabled = busy;
+  });
   const stopBtn = $('btn-stop');
   if (stopBtn) stopBtn.disabled = !hasActiveWork || requestBusy;
 }
@@ -172,7 +175,12 @@ async function snapshot() {
     $(`s-${name}`).textContent = status === 'working' ? t('agentWorking')
       : status === 'hanging' ? t('agentHanging')
       : status === 'error' ? t('agentError') : t('agentIdle');
-    $(`m-${name}`).textContent = data.models?.[name] || '—';
+    const modelName = data.models?.[name] || '—';
+    $(`m-${name}`).textContent = modelName;
+    const menu = card.querySelector('.model-menu');
+    if (menu && !menu.dataset.touched && [...menu.options].some((opt) => opt.value === modelName)) {
+      menu.value = modelName;
+    }
     if (status === 'working' || status === 'hanging') agentsWorking = true;
   }
 
@@ -398,6 +406,34 @@ $('btn-send').onclick = async () => {
     snapshot();
   }
 };
+
+const ONE_NAMES = { claude: 'Claude', opus: 'Opus', codex: 'Codex' };
+
+document.querySelectorAll('.model-menu').forEach((menu) => {
+  menu.addEventListener('change', () => {
+    menu.dataset.touched = '1';
+  });
+});
+
+document.querySelectorAll('.agent-run').forEach((btn) => {
+  btn.onclick = async () => {
+    const prompt = readPrompt();
+    if (!prompt) return;
+    const id = btn.dataset.agent;
+    if (!ONE_NAMES[id]) return;
+    const model = btn.parentElement?.querySelector('.model-menu')?.value || '';
+    setBusy(true);
+    try {
+      await post('/api/run', { prompt, mode: 'one', agent: id, model });
+      setHint(t('sentOne', { name: ONE_NAMES[id] }));
+    } catch (err) {
+      setHint(err.message, true);
+    } finally {
+      setBusy(false);
+      snapshot();
+    }
+  };
+});
 
 $('btn-council').onclick = async () => {
   const prompt = readPrompt();

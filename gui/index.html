@@ -6,7 +6,7 @@
   <title>Hydra</title>
   <link rel="icon" type="image/png" href="hydra.png" />
   <link rel="shortcut icon" href="hydra.ico" />
-  <link rel="stylesheet" href="style.css?v=34" />
+  <link rel="stylesheet" href="style.css?v=37" />
 </head>
 <body>
   <header>
@@ -41,18 +41,42 @@
       <span class="role" data-i18n="roleClaude">architekt</span>
       <b>Claude</b>
       <small id="m-claude">—</small>
+      <div class="agent-tools">
+        <select class="model-menu" data-agent="claude" aria-label="model Claude">
+          <option value="claude-sonnet-4-6">claude-sonnet-4-6</option>
+          <option value="claude-opus-4-6">claude-opus-4-6</option>
+          <option value="claude-haiku-4-5-20251001">claude-haiku-4-5</option>
+        </select>
+        <button class="agent-run" type="button" data-agent="claude" data-i18n="runOne">Spustit</button>
+      </div>
       <em id="s-claude">—</em>
     </article>
     <article data-agent="opus">
       <span class="role" data-i18n="roleOpus">kritika</span>
       <b>Opus</b>
       <small id="m-opus">—</small>
+      <div class="agent-tools">
+        <select class="model-menu" data-agent="opus" aria-label="model Opus">
+          <option value="claude-haiku-4-5-20251001">claude-haiku-4-5</option>
+          <option value="claude-opus-4-6">claude-opus-4-6</option>
+          <option value="claude-sonnet-4-6">claude-sonnet-4-6</option>
+        </select>
+        <button class="agent-run" type="button" data-agent="opus" data-i18n="runOne">Spustit</button>
+      </div>
       <em id="s-opus">—</em>
     </article>
     <article data-agent="codex">
       <span class="role" data-i18n="roleCodex">zápis</span>
       <b>Codex</b>
       <small id="m-codex">—</small>
+      <div class="agent-tools">
+        <select class="model-menu" data-agent="codex" aria-label="model Codex">
+          <option value="gpt-5.6-terra">gpt-5.6-terra</option>
+          <option value="gpt-5.3-codex">gpt-5.3-codex</option>
+          <option value="gpt-5.2-codex">gpt-5.2-codex</option>
+        </select>
+        <button class="agent-run" type="button" data-agent="codex" data-i18n="runOne">Spustit</button>
+      </div>
       <em id="s-codex">—</em>
     </article>
   </section>
@@ -117,7 +141,7 @@
     </div>
   </section>
 
-  <script src="i18n.js?v=5"></script>
-  <script src="app.js?v=38"></script>
+  <script src="i18n.js?v=8"></script>
+  <script src="app.js?v=41"></script>
 </body>
 </html>

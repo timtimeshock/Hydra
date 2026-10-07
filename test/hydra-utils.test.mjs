@@ -410,10 +410,10 @@ test('classifyPrompt detects review and fix as tandem indicator', () => {
 test('selectTandemPair returns correct pair for each task type', () => {
   const pairs = {
     planning: { lead: 'claude', follow: 'codex' },
-    architecture: { lead: 'claude', follow: 'gemini' },
-    review: { lead: 'gemini', follow: 'claude' },
-    testing: { lead: 'codex', follow: 'gemini' },
-    security: { lead: 'gemini', follow: 'claude' },
+    architecture: { lead: 'claude', follow: 'opus' },
+    review: { lead: 'opus', follow: 'claude' },
+    testing: { lead: 'codex', follow: 'opus' },
+    security: { lead: 'opus', follow: 'claude' },
   };
   for (const [taskType, expected] of Object.entries(pairs)) {
     const result = selectTandemPair(taskType, 'claude');
@@ -422,10 +422,10 @@ test('selectTandemPair returns correct pair for each task type', () => {
 });
 
 test('selectTandemPair respects agent filter', () => {
-  const result = selectTandemPair('planning', 'claude', ['claude', 'gemini']);
+  const result = selectTandemPair('planning', 'claude', ['claude', 'opus']);
   // planning lead=claude, follow=codex, but codex not available → swap follow
   assert.equal(result.lead, 'claude');
-  assert.equal(result.follow, 'gemini');
+  assert.equal(result.follow, 'opus');
 });
 
 test('selectTandemPair degrades to null when only 1 agent available', () => {

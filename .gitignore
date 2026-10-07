@@ -24,6 +24,17 @@ docs/mark55-home-assistant-voice.md
 lib/mark55-ha-voice-package.mjs
 test/mark55-ha-voice-package.test.mjs
 
+# Private local gauge and household repair scripts — never publish
+lib/hydra-bedrock-budget.mjs
+lib/hydra-local-gauge.mjs
+test/hydra-bedrock-budget.test.mjs
+gui/local.js
+*.pred-pojistkou
+scripts/repair-ethernet*.ps1
+scripts/repair-i226v*.ps1
+scripts/repair-windows-explorer*.ps1
+scripts/capture-explorer-logon-etw.ps1
+
 # Runtime / local state
 docs/coordination/
 docs/plans/

@@ -14,6 +14,7 @@ import {
   COUNCIL_HANDOFF_AGENTS,
   snapshotProjectFiles,
   changedProjectFiles,
+  parseCouncilResponse,
 } from '../lib/hydra-council.mjs';
 
 test('buildStepPrompt adds structured convergence instructions', () => {
@@ -160,6 +161,18 @@ test('synthesizeCouncilTranscript skips default tasks when decision says no furt
   const report = synthesizeCouncilTranscript('# Hydra Council — krátký smoke test', transcript);
   assert.equal(report.tasks.length, 0);
   assert.match(report.consensus, /Bez dalších změn/i);
+});
+
+test('parseCouncilResponse unwraps a CLI result envelope before reading the council decision', () => {
+  const stdout = JSON.stringify({
+    duration_api_ms: 42,
+    result: '```json\n{"should_open_council":false,"consensus":"Diagnostic answer only","decision":{"summary":"No file changes are required."}}\n```',
+  });
+
+  const parsed = parseCouncilResponse(stdout);
+  assert.equal(parsed.should_open_council, false);
+  assert.equal(parsed.decision.summary, 'No file changes are required.');
+  assert.equal(parsed.duration_api_ms, undefined);
 });
 
 test('deriveCouncilRecommendation keeps council open for human decisions', () => {

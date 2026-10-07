@@ -144,6 +144,25 @@ describe('agent-executor diagnostics', () => {
       assert.ok(result.errorDetail.includes('Internal agent error'));
     });
 
+    it('replaces a generic Codex failure with actionable exit and error context', () => {
+      const result = {
+        ok: false,
+        exitCode: 1,
+        signal: null,
+        error: 'Exit code 1, JSONL errors: Something went wrong',
+        stderr: '',
+        stdout: '{"type":"error","message":"Something went wrong"}',
+        output: '',
+      };
+
+      diagnoseAgentError('codex', result);
+
+      assert.equal(result.errorCategory, 'internal');
+      assert.match(result.errorContext, /Something went wrong/);
+      assert.match(result.error, /^\[internal\] Internal agent error/);
+      assert.match(result.error, /exit code 1/);
+    });
+
     it('captures context from stderr when exitCode is null', () => {
       const result = {
         ok: false,
