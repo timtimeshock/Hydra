@@ -2,12 +2,6 @@
   "version": 2,
   "mode": "performance",
   "models": {
-    "gemini": {
-      "default": "gemini-3.6-flash",
-      "fast": "gemini-3.6-flash",
-      "cheap": "gemini-3.6-flash",
-      "active": "default"
-    },
     "codex": {
       "default": "gpt-5.6-terra",
       "fast": "gpt-5.6-terra",
@@ -58,25 +52,21 @@
   },
   "modeTiers": {
     "performance": {
-      "gemini": "default",
       "codex": "default",
       "claude": "default",
       "opus": "default"
     },
     "balanced": {
-      "gemini": "fast",
       "codex": "fast",
       "claude": "fast",
       "opus": "default"
     },
     "economy": {
-      "gemini": "cheap",
       "codex": "cheap",
       "claude": "cheap",
       "opus": "default"
     },
     "custom": {
-      "gemini": "default",
       "codex": "default",
       "claude": "default",
       "opus": "default"

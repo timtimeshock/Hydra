@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Dropped the leftover Gemini model preset. Active presets are Claude, Grok (`opus`), and Codex
 - Council critique (`opus`) uses the Cursor CLI `agent` with `grok-4.7-high` in ask mode, replacing Claude Haiku 4.5
 - GUI council log shows short phase lines named Grok and skips the raw JSON report
 - After Council finishes, the hint says it finished and the decision is readable text, not a cut-off JSON dump

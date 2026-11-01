@@ -97,8 +97,8 @@ describe('ROLE_DEFAULTS', () => {
 });
 
 describe('AGENT_PRESETS', () => {
-  it('has presets for all 3 agents', () => {
-    for (const agent of ['claude', 'codex', 'gemini']) {
+  it('has presets for claude, opus, and codex', () => {
+    for (const agent of ['claude', 'opus', 'codex']) {
       const presets = AGENT_PRESETS[agent];
       assert.ok(presets, `Missing presets for ${agent}`);
       assert.ok(presets.default, `${agent} missing default preset`);
