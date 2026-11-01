@@ -584,7 +584,7 @@
 | Position | Current Default | Key Requirements | Primary Capability |
 |---|---|---|---|
 | **Architect** | Claude Sonnet / Opus | Planning, decomposition, system design | Abstract reasoning, code quality |
-| **Critique** | Claude Opus (same `claude` CLI) | Review, critique, risk identification | Analytical depth, long context |
+| **Critique** | Cursor Grok 4.7 High (`agent` CLI, agent id `opus`) | Review, critique, risk identification | Analytical depth, read-only ask mode |
 | **Implementer** | Codex (GPT) | Code generation, refactoring, execution | Long context, reasoning, code generation |
 | **Concierge** | OpenAI / Anthropic fallback | Fast streaming chat, broad knowledge | Low latency, good enough quality |
 | **Investigator** | Claude / Codex | Failure diagnosis, root-cause analysis | Deep reasoning, code understanding |
@@ -595,7 +595,7 @@
 | Phase | Current Agent | Model Selection Rationale |
 |---|---|---|
 | **Propose** | Claude | Architectural thinking and planning |
-| **Critique** | Opus (via `claude`) | Independent review on a stronger model slot |
+| **Critique** | Opus (`agent --model grok-4.7-high --mode ask`) | Independent review on Cursor Grok 4.7 High |
 | **Refine** | Claude | Synthesizes feedback into a coherent plan |
 | **Implement** | Codex | Code generation and refactoring |
 
@@ -652,20 +652,20 @@
 | **cheap** | `o4-mini` | Same model, best budget reasoning |
 | *alt-default* | `gpt-5.2` | When deep reasoning > speed (GPQA 93.2%) |
 
-#### Opus Agent (critique — same Claude CLI)
+#### Opus Agent (critique — Cursor CLI `agent`)
 
 | Preset | Model | Rationale |
 |---|---|---|
-| **default** | `claude-opus-4-6` | Strongest Claude critique / analysis slot |
-| **fast** | `claude-sonnet-4-6` | Faster critique when cost/latency matters |
-| **cheap** | `claude-haiku-4-5` | Light review / triage |
+| **default** | `grok-4.7-high` | Cursor Grok 4.7 High, ask mode, no file edits |
+| **fast** | `grok-4.7-high` | Same model |
+| **cheap** | `grok-4.7-high` | Same model. Haiku is no longer the critique slot |
 
 ### Role Assignments
 
 | Role | Agent | Model | Reasoning | Rationale |
 |---|---|---|---|---|
 | **architect** | claude | `claude-sonnet-4-6` (default) | adaptive | Strong agentic coding; Opus slot available for highest complexity |
-| **critique** | opus | `claude-opus-4-6` | adaptive | Independent review on Opus via the same `claude` CLI |
+| **critique** | opus | `grok-4.7-high` | high (in the model id) | Independent review via Cursor CLI, ask mode |
 | **implementer** | codex | `gpt-5.4` | none | Code generation and refactoring |
 | **concierge** | codex | `gpt-5` | low | Fast streaming, broad knowledge |
 | **investigator** | claude | `claude-opus-4-6` | adaptive | Deep diagnosis |

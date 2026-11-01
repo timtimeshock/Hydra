@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {
   HANG_SILENCE_MS,
+  isAgentCliAlive,
   formatDurationCs,
   parseCouncilPhaseEvents,
   currentPhaseFromEvents,
@@ -11,6 +12,8 @@ import {
   parseHeartbeatEvent,
   formatHeartbeatLine,
   formatExitCode,
+  publicAgentName,
+  isCouncilReportLine,
   isForcedExit,
 } from '../lib/hydra-run-status.mjs';
 
@@ -90,6 +93,12 @@ test('buildRunStatus hanging after silence when CLI is gone', () => {
   assert.match(s.detail, /CLI neběží/);
 });
 
+test('opus critique is alive only when the Cursor agent CLI is live', () => {
+  assert.equal(isAgentCliAlive('opus', ['claude']), false);
+  assert.equal(isAgentCliAlive('opus', ['agent']), true);
+  assert.equal(isAgentCliAlive('opus', ['opus']), true);
+});
+
 test('buildRunStatus thinking when silent but CLI still alive', () => {
   const now = 1_000_000;
   const s = buildRunStatus({
@@ -120,6 +129,17 @@ test('heartbeat helpers keep hang detection independent of ticks', () => {
   assert.match(line, /Gemini/);
   assert.match(line, /CLI nic nevypisuje/);
   assert.equal(stripAnsi('  \u001b[38;2;232;134;58mclaude\u001b[39m propose'), '  claude propose');
+});
+
+test('critique log name is Grok and the JSON report is not a log line', () => {
+  assert.equal(publicAgentName('opus'), 'Grok');
+  assert.equal(publicAgentName('claude'), 'Claude');
+  assert.equal(isCouncilReportLine('  "agent": "opus",'), true);
+  assert.equal(isCouncilReportLine('            "docs/coordination/AI_ORCHESTRATOR_STATUS.json"'), true);
+  assert.equal(isCouncilReportLine('  ✓ Grok critique complete (2s)'), false);
+  const line = formatHeartbeatLine({ agent: 'opus', phase: 'critique', elapsedMs: 5000, outputKB: 0 });
+  assert.match(line, /Grok critique/);
+  assert.doesNotMatch(line, /opus/i);
 });
 
 test('forced Windows exit codes are zabit, not unsigned junk', () => {

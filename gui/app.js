@@ -5,7 +5,7 @@ const DEFAULT_PROMPT = `Ověř opravy v C:\\Hydra. Nic mimo C:\\Hydra. Klíče a
 
 1) hydra-council.mjs: publish/handoff jen claude, opus, codex — ne local.
 2) Po Council musí být v okně čitelná odpověď.
-3) Kritiku dělá Opus (stejné CLI claude), zápis Codex.
+3) Kritiku dělá Grok 4.7 High (Cursor CLI agent, id opus), zápis Codex.
 
 Když to v souborech už je, nic nepřepisuj. Ohlas, co jsi ověřil.`;
 
@@ -50,6 +50,11 @@ function formatDurationUi(ms) {
 }
 
 function titleCaseName(name) {
+  const key = String(name || '').toLowerCase();
+  if (key === 'opus') return 'Grok';
+  if (key === 'claude') return 'Claude';
+  if (key === 'codex') return 'Codex';
+  if (key === 'gemini') return 'Gemini';
   const s = String(name || '');
   return s ? s.charAt(0).toUpperCase() + s.slice(1) : '';
 }
@@ -120,6 +125,11 @@ function setRunStatus(data) {
   detail.textContent = localizedRunDetail(rs, code);
   jobBusy = Boolean(data.job) || level === 'running' || level === 'hanging';
   refreshButtons();
+  const hint = $('hint');
+  const finished = !data.job && (level === 'idle' || code === 'idle');
+  if (finished && hint && hint.textContent === t('councilRunning')) {
+    setHint(t('councilDone'));
+  }
 }
 
 function readPrompt() {
@@ -407,7 +417,7 @@ $('btn-send').onclick = async () => {
   }
 };
 
-const ONE_NAMES = { claude: 'Claude', opus: 'Opus', codex: 'Codex' };
+const ONE_NAMES = { claude: 'Claude', opus: 'Grok', codex: 'Codex' };
 
 document.querySelectorAll('.model-menu').forEach((menu) => {
   menu.addEventListener('change', () => {

@@ -4,6 +4,8 @@
 
 import { describe, it, beforeEach, afterEach } from 'node:test';
 import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import path from 'node:path';
 
 import {
   diagnoseAgentError,
@@ -11,11 +13,56 @@ import {
   extractCodexUsage,
   extractCodexErrors,
   buildGeminiCliEnvironment,
+  countCursorAgentLaunches,
+  waitForCursorTurn,
+  hydraCursorConfigDir,
 } from '../lib/hydra-shared/agent-executor.mjs';
 
 import {
   detectCodexError,
 } from '../lib/hydra-model-recovery.mjs';
+
+it('waits for the running Cursor, then takes the turn', async () => {
+  let running = 1;
+  let held = false;
+  const notes = [];
+  let clock = 0;
+  const turn = await waitForCursorTurn({
+    query: async () => running,
+    acquire: () => {
+      if (held || running > 0) return false;
+      held = true;
+      return true;
+    },
+    release: () => { held = false; },
+    sleep: async () => { clock += 2000; running = 0; },
+    now: () => clock,
+    log: (line) => notes.push(line),
+    timeoutMs: 10000,
+    intervalMs: 2000,
+  });
+  assert.equal(turn.ready, true);
+  assert.equal(held, true);
+  assert.match(notes[0], /čekám/);
+});
+
+it('keeps Hydra Cursor CLI config outside the IDE config file', () => {
+  const dir = hydraCursorConfigDir();
+  assert.match(dir, /cursor-cli$/);
+  assert.equal(dir.includes(`${path.sep}.cursor${path.sep}`), false);
+  const cfg = JSON.parse(fs.readFileSync(path.join(dir, 'cli-config.json'), 'utf8'));
+  assert.equal(cfg.version, 1);
+});
+
+it('counts only live Cursor agent print or ask processes', () => {
+  const lines = [
+    'C:\\agent.exe -p --output-format json --mode ask --model grok-4.7-high',
+    'C:\\Cursor\\Cursor.exe --type=renderer',
+    'node.exe lib\\hydra-gui.mjs',
+  ];
+  assert.equal(countCursorAgentLaunches(lines), 1);
+  assert.equal(countCursorAgentLaunches([]), 0);
+});
 
 it('buildGeminiCliEnvironment uses GCA for paid non-AIza keys', () => {
   const env = buildGeminiCliEnvironment({ GEMINI_API_KEY: 'AQ.test', GOOGLE_API_KEY: 'AQ.test', PATH: 'test' });
@@ -128,6 +175,23 @@ describe('agent-executor diagnostics', () => {
 
       assert.equal(result.errorCategory, 'oom');
       assert.ok(result.errorDetail.includes('killed'));
+    });
+
+    it('includes the CLI stderr line in a generic exit-code failure', () => {
+      const result = {
+        ok: false,
+        exitCode: 1,
+        signal: null,
+        stderr: "Error: EPERM: operation not permitted, rename 'cli-config.json.tmp' -> 'cli-config.json'\n",
+        output: '',
+        error: 'Exit code 1',
+      };
+
+      diagnoseAgentError('opus', result);
+
+      assert.equal(result.errorCategory, 'runtime');
+      assert.match(result.errorDetail, /EPERM/);
+      assert.match(result.error, /cli-config\.json/);
     });
 
     it('identifies internal error from "something went wrong" pattern', () => {

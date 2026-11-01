@@ -17,6 +17,7 @@ import {
   getAllAgentNames,
   _resetRegistry,
   initAgentRegistry,
+  buildCursorCritiqueArgs,
 } from '../lib/hydra-agents.mjs';
 import { AFFINITY_PRESETS, loadHydraConfig, saveHydraConfig } from '../lib/hydra-config.mjs';
 
@@ -143,6 +144,8 @@ test('getAgent returns agent config for known agents', () => {
     if (name === 'local') {
       assert.equal(agent.cli, null);
       assert.equal(agent.councilRole, null);
+    } else if (name === 'opus') {
+      assert.equal(agent.cli, 'agent');
     } else {
       assert.equal(agent.cli, name === 'claude' ? 'claude' : name);
     }
@@ -161,7 +164,7 @@ test('bestAgentFor returns correct agents for each task type', () => {
   assert.equal(bestAgentFor('planning'), 'claude');
   assert.equal(bestAgentFor('architecture'), 'claude');
   assert.equal(bestAgentFor('analysis'), 'gemini');
-  assert.equal(bestAgentFor('review'), 'gemini');
+  assert.equal(bestAgentFor('review'), 'opus');
   assert.equal(bestAgentFor('implementation'), 'codex');
   assert.equal(bestAgentFor('testing'), 'codex');
 });
@@ -239,6 +242,27 @@ test('classifyTask uses notes for classification', () => {
 });
 
 // ── invoke methods ───────────────────────────────────────────────────────────
+
+test('opus critique invoke uses Cursor Grok 4.7 High in ask mode', () => {
+  const [cmd, args] = AGENTS.opus.invoke.nonInteractive('review this');
+  assert.equal(cmd, 'agent');
+  assert.equal(AGENTS.opus.cli, 'agent');
+  assert.ok(args.includes('--mode'));
+  assert.ok(args.includes('ask'));
+  assert.ok(args.includes('--model'));
+  assert.ok(args.includes('grok-4.7-high'));
+  assert.ok(args.includes('review this'));
+  assert.equal(args.includes('--force'), false);
+  const [, stdinArgs] = buildCursorCritiqueArgs({
+    prompt: 'long prompt',
+    cwd: 'C:\\hydra',
+    stdin: true,
+  });
+  assert.equal(stdinArgs.includes('long prompt'), false);
+  assert.ok(stdinArgs.includes('--workspace'));
+  assert.ok(stdinArgs.includes('C:\\hydra'));
+  assert.ok(stdinArgs.includes('ask'));
+});
 
 test('claude invoke produces correct CLI args', () => {
   const [cmd, args] = AGENTS.claude.invoke.nonInteractive('hello world');

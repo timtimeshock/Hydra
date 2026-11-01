@@ -46,7 +46,7 @@ No linter or build step — pure ESM, runs directly with Node.js.
 
 ## Architecture
 
-Hydra orchestrates three roles — **Claude** (architect), **Opus** (critique, same `claude` CLI + Opus model), and **Codex** (implementer) — through a shared HTTP daemon with task queue, intelligent routing, and Council.
+Hydra orchestrates three roles — **Claude** (architect), **Opus** (critique, Cursor CLI `agent` + Grok 4.7 High), and **Codex** (implementer) — through a shared HTTP daemon with task queue, intelligent routing, and Council.
 
 ### Core Flow
 
@@ -55,7 +55,7 @@ Operator Console (REPL) / Desktop GUI
     ├── Concierge (multi-provider chat when API keys configured)
     └── Daemon (HTTP API, port 4173, event-sourced state)
          ├── Claude  (architect)
-         ├── Opus    (critique — claude CLI + Opus model)
+         ├── Opus    (critique — Cursor CLI `agent`, model grok-4.7-high, ask mode)
          └── Codex   (implementer)
 ```
 
@@ -91,7 +91,7 @@ Two MCP servers are available when working in this project. Use them to get seco
 
 Invokes the agent CLI headlessly. No daemon needed.
 
-- **`agent: "opus"`** — Same `claude` CLI with Opus model. Best for: code review, architecture critique, analysis, research, edge cases, security review.
+- **`agent: "opus"`** — Cursor CLI `agent` with Grok 4.7 High (`--mode ask`, read-only). Best for: code review, architecture critique, analysis, research, edge cases, security review.
 - **`agent: "codex"`** — Codex CLI. Best for: implementation, refactoring, code generation, writing tests, quick prototyping.
 
 **When to use:**
@@ -121,3 +121,13 @@ Direct OpenAI Responses API calls (separate from Hydra's agent CLIs).
 4. Opus = `claude` CLI + Opus model. Chat is concierge, not an agent head.
 5. Do not create tasks for agent `local` unless a local LLM is explicitly enabled.
 6. Never commit secrets (`.env`, API keys, tokens).
+7. One Cursor runs at a time. If another Cursor or Council is already running, wait for it to finish and then continue. Do not start a second one in parallel, and do not cancel the one that is waiting. Critique does the same: it waits while another `agent` print/ask process holds the turn, then starts.
+8. Critique must not use a model below Claude Sonnet 4.6. A weaker critic only spends tokens and does not check Claude's work. The critique slot stays on Cursor Grok 4.7 High (`grok-4.7-high`).
+
+## Household PC / USB_E12 (Pavel) — HARD BANS
+
+PCMonitor on **USB_E12** (ASUS ROG Maximus Z790 Hero). Facts: `C:\Users\timti\Documents\Cursor\PC\household.md` — read first.
+
+**Never advise:** multimeter / USB voltmeter; “try rear USB”; “unplug monitor as test”; “what motherboard / what is E12 / what voltage”; rewiring Corsair; dumping `human_decision` lab homework on Pavel.
+
+Blink / no gadget after hard power-cycle = known E12 rail latch. Say so briefly and stop. Corsair is elsewhere (HS10) — leave it.

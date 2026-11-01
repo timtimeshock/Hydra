@@ -11,7 +11,7 @@
   <img src="docs/images/hydra-gui.png" alt="Hydra desktop GUI — Architect, Critique, Implement" width="900">
 </p>
 
-Hydra is a **local orchestrator**. It does not replace Claude or Codex — it runs them together (Claude architect, Opus critique on the same `claude` CLI, Codex implement) through a shared HTTP daemon, task queue, desktop GUI, and multi-round **Council**.
+Hydra is a **local orchestrator**. It does not replace Claude or Codex — it runs them together (Claude architect, Opus critique via the Cursor CLI on Grok 4.7 High, Codex implement) through a shared HTTP daemon, task queue, desktop GUI, and multi-round **Council**.
 
 ## What Hydra is / is not
 
@@ -19,9 +19,9 @@ Hydra is a **local orchestrator**. It does not replace Claude or Codex — it ru
 |--------------|------------------|
 | A Node.js app you install with `npm install` | A bundle that installs Claude / Codex for you |
 | A coordinator (daemon + GUI + operator CLI) | A cloud SaaS or hosted agent |
-| Opinionated about **model IDs** in `hydra.config.json` | Interested in *how* you authenticated (Anthropic, Bedrock, ChatGPT, API keys, …) |
+| Opinionated about **model IDs** in `hydra.config.json` | Interested in *how* you authenticated |
 
-If `claude` and `codex` do not already work on your machine, Hydra’s Chat / Send / Council will not work either. That is expected.
+If `claude`, `agent`, and `codex` do not already work on your machine, Hydra’s Chat / Send / Council will not work either. That is expected.
 
 ## Requirements
 
@@ -29,7 +29,8 @@ If `claude` and `codex` do not already work on your machine, Hydra’s Chat / Se
 |-------------|--------|
 | **Node.js 20+** | Required to run Hydra |
 | **PowerShell 7+** | Windows launchers (Linux/macOS can call Node directly) |
-| **`claude` on PATH** | [Claude Code](https://docs.anthropic.com/en/docs/claude-code) must be installed and able to run a prompt. **Opus is not a separate product** — Council critique uses the same `claude` binary with an Opus model id. |
+| **`claude` on PATH** | [Claude Code](https://docs.anthropic.com/en/docs/claude-code) must be installed and able to run a prompt. Council propose/refine uses this CLI. |
+| **`agent` on PATH** | [Cursor CLI](https://cursor.com/docs/cli/overview). Council critique uses `agent -p --mode ask --model grok-4.7-high`. |
 | **`codex` on PATH** | [Codex CLI](https://github.com/openai/codex) must be installed and able to run a prompt. |
 | **`gh` CLI** | Optional, for GitHub features |
 
@@ -38,12 +39,15 @@ Install the agent CLIs yourself (examples):
 ```bash
 npm install -g @anthropic-ai/claude-code
 npm install -g @openai/codex
+# Windows Cursor CLI:
+# irm 'https://cursor.com/install?win32=true' | iex
 ```
 
 Then verify **outside** Hydra:
 
 ```bash
 claude -p "ping"
+agent --list-models
 codex --help
 ```
 

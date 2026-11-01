@@ -225,7 +225,7 @@ The concierge is a multi-provider conversational AI layer with automatic fallbac
 
 - **auto** (default): Runs a mini-round triage, then either delegates via handoff or escalates to full council
 - **handoff**: Direct delegation to all agents (fastest, no triage)
-- **council**: Full multi-round deliberation with structured synthesis (Claude propose → Opus critique → Claude refine → Codex implement)
+- **council**: Full multi-round deliberation with structured synthesis (Claude propose → Cursor Grok 4.7 High critique → Claude refine → Codex implement)
 - **dispatch**: Headless pipeline (Claude coordinate → Opus critique → Codex synthesize)
 - **smart**: Auto-selects model tier per prompt complexity (simple->economy, medium->balanced, complex->performance)
 - **chat**: Concierge conversation mode (set automatically when concierge is active)
