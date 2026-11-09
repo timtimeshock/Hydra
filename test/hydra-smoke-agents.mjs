@@ -79,7 +79,6 @@ async function probe(agent) {
 }
 
 const login = {
-  claude_bedrock: process.env.CLAUDE_CODE_USE_BEDROCK === '1',
   gemini_oauth: hasFile('.gemini', 'oauth_creds.json'),
   codex_auth: hasFile('.codex', 'auth.json'),
 };

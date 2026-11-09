@@ -43,7 +43,7 @@ const [claudeFixtures, geminiFixtures, codexFixtures] = await Promise.all([
 
 const mockExecuteAgent = createMockExecuteAgent({
   claude: claudeFixtures,
-  opus: claudeFixtures, // Opus = Claude CLI with --model opus
+  opus: claudeFixtures, // critique JSON still uses a top-level result field
   gemini: geminiFixtures,
   codex: codexFixtures,
 });

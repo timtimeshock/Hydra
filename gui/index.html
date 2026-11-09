@@ -53,13 +53,11 @@
     </article>
     <article data-agent="opus">
       <span class="role" data-i18n="roleOpus">kritika</span>
-      <b>Opus</b>
-      <small id="m-opus">—</small>
+      <b>Grok</b>
+      <small id="m-opus">grok-4.7-high</small>
       <div class="agent-tools">
-        <select class="model-menu" data-agent="opus" aria-label="model Opus">
-          <option value="claude-haiku-4-5-20251001">claude-haiku-4-5</option>
-          <option value="claude-opus-4-6">claude-opus-4-6</option>
-          <option value="claude-sonnet-4-6">claude-sonnet-4-6</option>
+        <select class="model-menu" data-agent="opus" aria-label="model Grok">
+          <option value="grok-4.7-high" selected>Grok 4.7 High</option>
         </select>
         <button class="agent-run" type="button" data-agent="opus" data-i18n="runOne">Spustit</button>
       </div>
@@ -99,7 +97,7 @@
       <button id="btn-stop" class="stop" type="button" data-i18n="stopAll">⏹ Zastavit vše</button>
       <button id="btn-clear" class="ghost" type="button" data-i18n="clearBtn">Vyčistit</button>
     </div>
-    <p id="hint" class="hint" data-i18n="hintDefault">Chat = jen odpověď. Odeslat = agenti. Council = Claude navrhne, Opus zkritizuje, Codex zapíše.</p>
+    <p id="hint" class="hint" data-i18n="hintDefault">Chat = jen odpověď. Odeslat = agenti. Council = Claude navrhne, Grok zkritizuje, Codex zapíše.</p>
   </section>
 
   <section class="answers-wrap">
@@ -141,7 +139,7 @@
     </div>
   </section>
 
-  <script src="i18n.js?v=8"></script>
-  <script src="app.js?v=41"></script>
+  <script src="i18n.js?v=9"></script>
+  <script src="app.js?v=42"></script>
 </body>
 </html>

@@ -64,7 +64,7 @@ describe('MODEL_PROFILES data integrity', () => {
   });
 
   it('every agent in profiles is one of claude/codex/gemini', () => {
-    const validAgents = new Set(['claude', 'codex', 'gemini']);
+    const validAgents = new Set(['claude', 'codex', 'gemini', 'opus']);
     for (const [id, p] of Object.entries(MODEL_PROFILES)) {
       assert.ok(validAgents.has(p.agent), `${id} has invalid agent: ${p.agent}`);
     }
@@ -97,8 +97,8 @@ describe('ROLE_DEFAULTS', () => {
 });
 
 describe('AGENT_PRESETS', () => {
-  it('has presets for all 3 agents', () => {
-    for (const agent of ['claude', 'codex', 'gemini']) {
+  it('has presets for claude, opus, and codex', () => {
+    for (const agent of ['claude', 'opus', 'codex']) {
       const presets = AGENT_PRESETS[agent];
       assert.ok(presets, `Missing presets for ${agent}`);
       assert.ok(presets.default, `${agent} missing default preset`);
@@ -148,6 +148,10 @@ describe('query functions', () => {
     assert.equal(p.default, 'claude-sonnet-4-6');
     assert.equal(p.fast, 'claude-sonnet-4-5-20250929');
     assert.equal(p.cheap, 'claude-haiku-4-5-20251001');
+    const opus = getAgentPresets('opus');
+    assert.equal(opus.default, 'grok-4.7-high');
+    assert.equal(opus.fast, 'grok-4.7-high');
+    assert.equal(opus.cheap, 'grok-4.7-high');
   });
 
   it('getAgentPresets returns null for unknown agent', () => {

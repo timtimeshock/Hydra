@@ -7,7 +7,7 @@
 
 Hydra is a multi-agent AI orchestration system that coordinates three roles — **Claude** (architect), **Opus** (critique), and **Codex** (implementer) — through a shared HTTP daemon, task queue, intelligent routing, and multi-round Council.
 
-Opus is **not** a separate product: it uses the same `claude` CLI with an Opus model id. Default Council does not use Gemini CLI.
+The critique role keeps the agent id `opus`. It runs the Cursor Agent CLI (`agent`) with model `grok-4.7-high` in ask mode (read-only). Default Council does not use the Gemini CLI.
 
 The daemon listens on `localhost:4173` and exposes an HTTP API for tasks, coordination, and events. The operator console (REPL) and desktop GUI are the primary UIs.
 
@@ -43,7 +43,7 @@ Claude is the **architect** — design, planning, and architectural decisions.
 Opus is the **critique** — review, research, security analysis, and challenging plans.
 
 - Primary reference: `OPUS.md`
-- Same `claude` binary; model from `getActiveModel('opus')`
+- Cursor CLI `agent`, model `getActiveModel('opus')` (`grok-4.7-high`), `--mode ask`
 - Be specific; suggest concrete fixes; report via `hydra_tasks_update`
 
 ## @codex
@@ -61,7 +61,7 @@ Codex is the **implementer** — code generation, refactoring, and tests.
 2. Verify logs, processes, files, and code yourself before asking the human.
 3. If the GUI shows Council running while all agents look idle, treat it as a display bug and fix status reporting.
 4. GUI answers must be readable text (not truncated JSON) and copyable.
-5. Opus = `claude` CLI + Opus model. Claude: `bypassPermissions`. Codex: `danger-full-access`. Chat is concierge, not an agent head.
+5. Critique id `opus` runs the Cursor CLI `agent` with `grok-4.7-high` in ask mode. Claude: `bypassPermissions`. Codex: `danger-full-access`. Chat is concierge, not an agent head.
 6. Do not create tasks for agent `local` unless a local LLM is explicitly enabled for the project.
 7. Never commit secrets (`.env`, API keys, tokens).
 
