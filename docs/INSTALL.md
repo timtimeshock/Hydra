@@ -8,11 +8,12 @@ All documentation is in **English**. Hydra is a local orchestrator for agent CLI
 |------------|---------|-------|
 | **Node.js** | 20+ | Runs Hydra |
 | **PowerShell** | 7+ | Windows launchers |
-| **`claude` CLI** | Working on PATH | [Claude Code](https://docs.anthropic.com/en/docs/claude-code). Opus uses this same binary. |
+| **`claude` CLI** | Working on PATH | [Claude Code](https://docs.anthropic.com/en/docs/claude-code). Council propose and refine use this CLI. |
+| **`copilot` CLI** | Working on PATH | [GitHub Copilot CLI](https://github.com/features/copilot/cli). Council critique uses this CLI. Write and shell are denied. |
 | **`codex` CLI** | Working on PATH | [Codex CLI](https://github.com/openai/codex) |
 | **`gh` CLI** | Optional | GitHub features |
 
-Hydra does **not** install or authenticate Claude/Codex. Any login that makes those CLIs work is fine.
+Hydra does **not** install or authenticate Claude, Copilot, or Codex. Any login that makes those CLIs work is fine.
 
 ### Install agent CLIs (your responsibility)
 

@@ -3,7 +3,7 @@
 [![CI](https://github.com/timtimeshock/Hydra/actions/workflows/ci.yml/badge.svg)](https://github.com/timtimeshock/Hydra/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-**Multi-agent AI orchestrator** for [Claude Code](https://docs.anthropic.com/en/docs/claude-code) and [Codex CLI](https://github.com/openai/codex).
+**Multi-agent AI orchestrator** for [Claude Code](https://docs.anthropic.com/en/docs/claude-code), [GitHub Copilot CLI](https://github.com/features/copilot/cli), and [Codex CLI](https://github.com/openai/codex).
 
 > **Status:** Active development. APIs may change between releases.
 
@@ -11,7 +11,7 @@
   <img src="docs/images/hydra-gui.png" alt="Hydra desktop GUI — Architect, Critique, Implement" width="900">
 </p>
 
-Hydra is a **local orchestrator**. It does not replace Claude or Codex — it runs them together (Claude architect, Opus critique via the GitHub Copilot CLI, Codex implement) through a shared HTTP daemon, task queue, desktop GUI, and multi-round **Council**.
+Hydra is a **local orchestrator**. It does not replace Claude, Copilot, or Codex — it runs them together (Claude plans, Copilot critiques, Codex implements) through a shared HTTP daemon, task queue, desktop GUI, and multi-round **Council**.
 
 ## What Hydra is / is not
 
@@ -21,7 +21,7 @@ Hydra is a **local orchestrator**. It does not replace Claude or Codex — it ru
 | A coordinator (daemon + GUI + operator CLI) | A cloud SaaS or hosted agent |
 | Opinionated about **model IDs** in `hydra.config.json` | Interested in how you authenticated |
 
-If `claude`, `agent`, and `codex` do not already work on your machine, Hydra’s Chat / Send / Council will not work either. That is expected.
+If `claude`, `copilot`, and `codex` do not already work on your machine, Hydra’s Chat / Send / Council will not work either. That is expected.
 
 ## Requirements
 
@@ -39,15 +39,14 @@ Install the agent CLIs yourself (examples):
 ```bash
 npm install -g @anthropic-ai/claude-code
 npm install -g @openai/codex
-# Windows Cursor CLI:
-# irm 'https://cursor.com/install?win32=true' | iex
+# GitHub Copilot CLI so `copilot` is on PATH, then log in with the paid account.
 ```
 
 Then verify **outside** Hydra:
 
 ```bash
 claude -p "ping"
-agent --list-models
+copilot --version
 codex --help
 ```
 
@@ -72,23 +71,23 @@ pwsh -File .\bin\install-hydra-cli.ps1   # Windows
 
 Copy `.env.example` → `.env` only if you need API keys for optional features. Prefer CLI logins when possible. **Never commit `.env`.**
 
-In the GUI, use **Diagnostics** to confirm `claude` and `codex` are on PATH. Auth method is not checked on purpose.
+In the GUI, use **Diagnostics** to confirm `claude`, `copilot`, and `codex` are on PATH. Auth method is not checked on purpose.
 
 ### First-run checklist
 
 1. Node 20+  
-2. `claude` and `codex` on PATH and working alone  
+2. `claude`, `copilot`, and `codex` on PATH and working alone  
 3. `npm install` + `npm run setup`  
-4. GUI **Diagnostics** → Claude / Codex OK  
+4. GUI **Diagnostics** → Claude / Copilot / Codex OK  
 5. Then Chat / Send to agents / Council  
 
 ## Why Hydra?
 
-Each coding agent has strengths. Claude is strong at planning; Opus (same Claude CLI) is strong at critique; Codex is strong at implementation. Hydra runs them as one workflow:
+Each coding agent has strengths. Claude is strong at planning. Copilot is strong at critique and does not edit files. Codex is strong at implementation. Hydra runs them as one workflow:
 
 - **Route work** — local heuristic picks agent / tandem / council  
 - **Parallel workers** — headless agents claim tasks (often in git worktrees)  
-- **Council** — Claude proposes → Opus critiques → Claude refines → Codex implements  
+- **Council** — Claude proposes → Copilot critiques → Claude refines → Codex implements  
 - **Automation** — nightly / evolve pipelines with budgets and recovery  
 
 ## Setup (`npm run setup`)
@@ -100,9 +99,9 @@ npm run setup
 
 This will:
 
-1. Detect `claude` / `codex` on PATH  
+1. Detect `claude` / `copilot` / `codex` on PATH  
 2. Register Hydra’s MCP server with installed CLIs (when present)  
-3. Ensure default **model slots** in `hydra.config.json` (Claude / Opus / Codex)
+3. Ensure default **model slots** in `hydra.config.json` (Claude / Copilot / Codex)
 
 It does **not** install vendor CLIs and does **not** log you in.
 
@@ -134,12 +133,12 @@ hydra setup --uninstall    # remove MCP registration
           +------------+  |  +-----------+
           v               v              v
      +---------+    +-----------+    +--------+
-     | Claude  |    |   Opus    |    | Codex  |
-     | Sonnet  |    | (claude)  |    |        |
+     | Claude  |    |  Copilot  |    | Codex  |
+     | Sonnet  |    |           |    |        |
      +---------+    +-----------+    +--------+
       Architect       Critique       Implement
 
-  Council: Claude → Opus → Claude → Codex
+  Council: Claude → Copilot → Claude → Codex
   Concierge: OpenAI → Anthropic → Google fallback (when configured)
 ```
 
@@ -165,7 +164,7 @@ hydra setup --uninstall    # remove MCP registration
 - **Per-agent model switching**: Trade quality for speed/cost at runtime
 - **Interactive model picker**: Type-to-filter browser with reasoning effort configuration
 - **Headless workers**: Background agent execution with claim-execute-report loop
-- **Agent Forge**: Multi-model agent creation pipeline — Opus analyzes, Claude designs, Opus critiques, Claude refines, optional live test
+- **Agent Forge**: Multi-model agent creation pipeline — Copilot analyzes, Claude designs, Copilot critiques, Claude refines, optional live test
 
 ### Monitoring & Safety
 
@@ -222,7 +221,7 @@ hydra setup --uninstall    # remove MCP registration
 | `:mode smart` | Auto-select model tier per prompt complexity |
 | `:mode handoff` | Direct handoffs (fast, no triage) |
 | `:mode council` | Full council deliberation |
-| `:mode dispatch` | Headless pipeline (Claude→Opus→Codex) |
+| `:mode dispatch` | Headless pipeline (Claude→Copilot→Codex) |
 | `:mode [economy\|balanced\|performance]` | Show or set routing mode. Economy boosts local LLM for impl/testing; performance favors cloud. |
 | `:model` | Show mode & active models |
 | `:model claude=sonnet` | Override agent model |
