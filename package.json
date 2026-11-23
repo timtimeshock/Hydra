@@ -1,7 +1,7 @@
 {
   "name": "hydra",
   "version": "1.2.0",
-  "description": "Local multi-agent orchestrator for Claude Code and Codex CLI",
+  "description": "Local multi-agent orchestrator for Claude Code, GitHub Copilot CLI, and Codex CLI",
   "type": "module",
   "license": "MIT",
   "author": "Silly Pepper",

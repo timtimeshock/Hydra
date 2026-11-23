@@ -5,7 +5,7 @@
 
 ## Project Overview
 
-Hydra is a multi-agent AI orchestration system that coordinates three roles — **Claude** (architect), **Opus** (critique), and **Codex** (implementer) — through a shared HTTP daemon, task queue, intelligent routing, and multi-round Council.
+Hydra is a multi-agent AI orchestration system that coordinates three roles — **Claude** (architect), **Copilot** (critique), and **Codex** (implementer) — through a shared HTTP daemon, task queue, intelligent routing, and multi-round Council.
 
 The critique role keeps the agent id `opus`. It runs the GitHub Copilot CLI (`copilot`) with model `auto`. Write and shell are denied. Default Council does not use the Gemini CLI.
 
@@ -40,7 +40,7 @@ Claude is the **architect** — design, planning, and architectural decisions.
 
 ## @opus
 
-Opus is the **critique** — review, research, security analysis, and challenging plans.
+Copilot is the **critique** — review, research, security analysis, and challenging plans. The routing id stays `opus`.
 
 - Primary reference: `OPUS.md`
 - GitHub Copilot CLI `copilot`, model `auto`. Write and shell are denied.

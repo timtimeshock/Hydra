@@ -22,7 +22,7 @@ Never commit directly to `master`.
 - **ESM only** — `import`/`export`, no CommonJS
 - **No build step** — pure ESM, runs directly with Node.js 20+
 - **Terminal colors** — use `picocolors` (`pc`), never chalk
-- **Agent names** — always lowercase: `claude`, `gemini`, `codex`
+- **Agent names** — always lowercase: `claude`, `opus`, `codex`. Critique id `opus` runs the GitHub Copilot CLI.
 - **Tests** — Node.js native `node:test` + `node:assert/strict`
 - **Dependencies** — keep them minimal; check with maintainers before adding new ones
 
