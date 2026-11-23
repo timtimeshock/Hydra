@@ -17,7 +17,7 @@ Hydra is a **local orchestrator**. It does not replace Claude, Copilot, or Codex
 
 | Hydra **is** | Hydra **is not** |
 |--------------|------------------|
-| A Node.js app you install with `npm install` | A bundle that installs Claude / Codex for you |
+| A Node.js app you install with `npm install` | A bundle that installs Claude, Copilot, or Codex for you |
 | A coordinator (daemon + GUI + operator CLI) | A cloud SaaS or hosted agent |
 | Opinionated about **model IDs** in `hydra.config.json` | Interested in how you authenticated |
 
