@@ -39,7 +39,8 @@ Install the agent CLIs yourself (examples):
 ```bash
 npm install -g @anthropic-ai/claude-code
 npm install -g @openai/codex
-# GitHub Copilot CLI so `copilot` is on PATH, then log in with the paid account.
+npm install -g @github/copilot
+# Windows, if that npm install wants Node.js 22: winget install GitHub.Copilot
 ```
 
 Then verify **outside** Hydra:

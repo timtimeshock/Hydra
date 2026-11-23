@@ -20,9 +20,11 @@ Hydra does **not** install or authenticate Claude, Copilot, or Codex. Any login 
 ```bash
 npm install -g @anthropic-ai/claude-code
 npm install -g @openai/codex
+npm install -g @github/copilot
+# Windows, if that npm install wants Node.js 22: winget install GitHub.Copilot
 ```
 
-Verify outside Hydra (`claude -p "ping"`, `codex --help`) before debugging Hydra.
+Log in to Copilot once (`copilot`, then `/login`) with the paid account. Verify outside Hydra (`claude -p "ping"`, `copilot --version`, `codex --help`) before debugging Hydra.
 
 ## Install Hydra
 
