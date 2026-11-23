@@ -5,7 +5,7 @@ const DEFAULT_PROMPT = `Ověř opravy v C:\\Hydra. Nic mimo C:\\Hydra. Klíče a
 
 1) hydra-council.mjs: publish/handoff jen claude, opus, codex — ne local.
 2) Po Council musí být v okně čitelná odpověď.
-3) Kritiku dělá Grok 4.7 High (Cursor CLI agent, id opus), zápis Codex.
+3) Kritiku dělá GitHub Copilot (CLI copilot, id opus), zápis Codex. Soubory Copilot nepřepisuje.
 
 Když to v souborech už je, nic nepřepisuj. Ohlas, co jsi ověřil.`;
 
@@ -51,7 +51,7 @@ function formatDurationUi(ms) {
 
 function titleCaseName(name) {
   const key = String(name || '').toLowerCase();
-  if (key === 'opus') return 'Grok';
+  if (key === 'opus') return 'Copilot';
   if (key === 'claude') return 'Claude';
   if (key === 'codex') return 'Codex';
   if (key === 'gemini') return 'Gemini';
@@ -417,7 +417,7 @@ $('btn-send').onclick = async () => {
   }
 };
 
-const ONE_NAMES = { claude: 'Claude', opus: 'Grok', codex: 'Codex' };
+const ONE_NAMES = { claude: 'Claude', opus: 'Copilot', codex: 'Codex' };
 
 document.querySelectorAll('.model-menu').forEach((menu) => {
   menu.addEventListener('change', () => {

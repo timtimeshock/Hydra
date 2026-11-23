@@ -149,9 +149,9 @@ describe('query functions', () => {
     assert.equal(p.fast, 'claude-sonnet-4-5-20250929');
     assert.equal(p.cheap, 'claude-haiku-4-5-20251001');
     const opus = getAgentPresets('opus');
-    assert.equal(opus.default, 'grok-4.7-high');
-    assert.equal(opus.fast, 'grok-4.7-high');
-    assert.equal(opus.cheap, 'grok-4.7-high');
+    assert.equal(opus.default, 'auto');
+    assert.equal(opus.fast, 'auto');
+    assert.equal(opus.cheap, 'auto');
   });
 
   it('getAgentPresets returns null for unknown agent', () => {

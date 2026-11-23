@@ -31,4 +31,4 @@ Claim the task first, then report what changed and which tests you added via `hy
 - Do not create tasks for agent `local` unless the project explicitly enables a local LLM.
 - Never commit secrets (`.env`, API keys, tokens).
 - One Cursor runs at a time. If another Cursor or Council is already running, wait for it to finish and then continue. Do not start a second one in parallel, and do not cancel the one that is waiting.
-- Critique must not use a model below Claude Sonnet 4.6. A weaker critic only spends tokens and does not check Claude's work. The critique slot stays on Cursor Grok 4.7 High.
+- Critique is the paid GitHub Copilot CLI (`copilot`, model `auto`). Write and shell are denied. Do not put critique back on Cursor Grok or on Claude Opus.

@@ -17,7 +17,6 @@ import {
   getAllAgentNames,
   _resetRegistry,
   initAgentRegistry,
-  buildCursorCritiqueArgs,
 } from '../lib/hydra-agents.mjs';
 import { AFFINITY_PRESETS, loadHydraConfig, saveHydraConfig } from '../lib/hydra-config.mjs';
 
@@ -145,7 +144,7 @@ test('getAgent returns agent config for known agents', () => {
       assert.equal(agent.cli, null);
       assert.equal(agent.councilRole, null);
     } else if (name === 'opus') {
-      assert.equal(agent.cli, 'agent');
+      assert.equal(agent.cli, 'copilot');
     } else {
       assert.equal(agent.cli, name === 'claude' ? 'claude' : name);
     }
@@ -243,25 +242,20 @@ test('classifyTask uses notes for classification', () => {
 
 // ── invoke methods ───────────────────────────────────────────────────────────
 
-test('opus critique invoke uses Cursor Grok 4.7 High in ask mode', () => {
+test('opus critique invoke uses GitHub Copilot and denies writes', () => {
   const [cmd, args] = AGENTS.opus.invoke.nonInteractive('review this');
-  assert.equal(cmd, 'agent');
-  assert.equal(AGENTS.opus.cli, 'agent');
-  assert.ok(args.includes('--mode'));
-  assert.ok(args.includes('ask'));
+  assert.equal(cmd, 'copilot');
+  assert.equal(AGENTS.opus.cli, 'copilot');
+  assert.equal(args.includes('review this'), false);
   assert.ok(args.includes('--model'));
-  assert.ok(args.includes('grok-4.7-high'));
-  assert.ok(args.includes('review this'));
-  assert.equal(args.includes('--force'), false);
-  const [, stdinArgs] = buildCursorCritiqueArgs({
-    prompt: 'long prompt',
-    cwd: 'C:\\hydra',
-    stdin: true,
-  });
-  assert.equal(stdinArgs.includes('long prompt'), false);
-  assert.ok(stdinArgs.includes('--workspace'));
-  assert.ok(stdinArgs.includes('C:\\hydra'));
-  assert.ok(stdinArgs.includes('ask'));
+  assert.ok(args.includes('auto'));
+  assert.ok(args.includes('--deny-tool'));
+  assert.ok(args.includes('write'));
+  assert.ok(args.includes('shell'));
+  const [, withCwd] = AGENTS.opus.invoke.headless('long prompt', { cwd: 'C:\\hydra' });
+  assert.equal(withCwd.includes('long prompt'), false);
+  assert.ok(withCwd.includes('-C'));
+  assert.ok(withCwd.includes('C:\\hydra'));
 });
 
 test('claude invoke produces correct CLI args', () => {

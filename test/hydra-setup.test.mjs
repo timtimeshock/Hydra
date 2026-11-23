@@ -172,6 +172,7 @@ describe('detectInstalledCLIs', () => {
     assert.ok('gemini' in result);
     assert.ok('codex' in result);
     assert.ok('agent' in result);
+    assert.ok('copilot' in result);
   });
 
   it('each value is a boolean', () => {
@@ -180,6 +181,7 @@ describe('detectInstalledCLIs', () => {
     assert.strictEqual(typeof result.gemini, 'boolean');
     assert.strictEqual(typeof result.codex, 'boolean');
     assert.strictEqual(typeof result.agent, 'boolean');
+    assert.strictEqual(typeof result.copilot, 'boolean');
   });
 });
 

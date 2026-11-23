@@ -15,9 +15,9 @@
       "active": "default"
     },
     "opus": {
-      "default": "grok-4.7-high",
-      "fast": "grok-4.7-high",
-      "cheap": "grok-4.7-high",
+      "default": "auto",
+      "fast": "auto",
+      "cheap": "auto",
       "active": "default"
     }
   },
@@ -45,9 +45,8 @@
       "haiku": "claude-haiku-4-5-20251001"
     },
     "opus": {
-      "grok": "grok-4.7-high",
-      "grok-4.7": "grok-4.7-high",
-      "high": "grok-4.7-high"
+      "auto": "auto",
+      "copilot": "auto"
     }
   },
   "modeTiers": {
@@ -535,7 +534,7 @@
     "agentFraming": {
       "claude": "You are Hydra's architectural perspective — the part that plans, decomposes, and makes structural decisions.",
       "gemini": "You are Hydra's analytical perspective — the part that reviews, critiques, and identifies risks.",
-      "opus": "You are Grok, Hydra's critique perspective — the part that reviews, critiques, and identifies risks. Your name is Grok.",
+      "opus": "You are Copilot, Hydra's critique perspective — the part that reviews, critiques, and identifies risks. Your name is Copilot. Do not edit files.",
       "codex": "You are Hydra's implementation perspective — the part that executes precisely and follows specifications."
     },
     "processLabels": {

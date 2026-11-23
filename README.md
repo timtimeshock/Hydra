@@ -11,7 +11,7 @@
   <img src="docs/images/hydra-gui.png" alt="Hydra desktop GUI — Architect, Critique, Implement" width="900">
 </p>
 
-Hydra is a **local orchestrator**. It does not replace Claude or Codex — it runs them together (Claude architect, Opus critique via the Cursor CLI on Grok 4.7 High, Codex implement) through a shared HTTP daemon, task queue, desktop GUI, and multi-round **Council**.
+Hydra is a **local orchestrator**. It does not replace Claude or Codex — it runs them together (Claude architect, Opus critique via the GitHub Copilot CLI, Codex implement) through a shared HTTP daemon, task queue, desktop GUI, and multi-round **Council**.
 
 ## What Hydra is / is not
 
@@ -30,7 +30,7 @@ If `claude`, `agent`, and `codex` do not already work on your machine, Hydra’s
 | **Node.js 20+** | Required to run Hydra |
 | **PowerShell 7+** | Windows launchers (Linux/macOS can call Node directly) |
 | **`claude` on PATH** | [Claude Code](https://docs.anthropic.com/en/docs/claude-code) must be installed and able to run a prompt. Council propose/refine uses this CLI. |
-| **`agent` on PATH** | [Cursor CLI](https://cursor.com/docs/cli/overview). Council critique uses `agent -p --mode ask --model grok-4.7-high`. |
+| **`copilot` on PATH** | [GitHub Copilot CLI](https://github.com/features/copilot/cli). Council critique uses `copilot` with model `auto`. Write and shell are denied. |
 | **`codex` on PATH** | [Codex CLI](https://github.com/openai/codex) must be installed and able to run a prompt. |
 | **`gh` CLI** | Optional, for GitHub features |
 

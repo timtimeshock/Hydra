@@ -93,9 +93,9 @@ test('buildRunStatus hanging after silence when CLI is gone', () => {
   assert.match(s.detail, /CLI neběží/);
 });
 
-test('opus critique is alive only when the Cursor agent CLI is live', () => {
+test('opus critique is alive only when the Copilot CLI is live', () => {
   assert.equal(isAgentCliAlive('opus', ['claude']), false);
-  assert.equal(isAgentCliAlive('opus', ['agent']), true);
+  assert.equal(isAgentCliAlive('opus', ['copilot']), true);
   assert.equal(isAgentCliAlive('opus', ['opus']), true);
 });
 
@@ -131,14 +131,14 @@ test('heartbeat helpers keep hang detection independent of ticks', () => {
   assert.equal(stripAnsi('  \u001b[38;2;232;134;58mclaude\u001b[39m propose'), '  claude propose');
 });
 
-test('critique log name is Grok and the JSON report is not a log line', () => {
-  assert.equal(publicAgentName('opus'), 'Grok');
+test('critique log name is Copilot and the JSON report is not a log line', () => {
+  assert.equal(publicAgentName('opus'), 'Copilot');
   assert.equal(publicAgentName('claude'), 'Claude');
   assert.equal(isCouncilReportLine('  "agent": "opus",'), true);
   assert.equal(isCouncilReportLine('            "docs/coordination/AI_ORCHESTRATOR_STATUS.json"'), true);
-  assert.equal(isCouncilReportLine('  ✓ Grok critique complete (2s)'), false);
+  assert.equal(isCouncilReportLine('  ✓ Copilot critique complete (2s)'), false);
   const line = formatHeartbeatLine({ agent: 'opus', phase: 'critique', elapsedMs: 5000, outputKB: 0 });
-  assert.match(line, /Grok critique/);
+  assert.match(line, /Copilot critique/);
   assert.doesNotMatch(line, /opus/i);
 });
 
